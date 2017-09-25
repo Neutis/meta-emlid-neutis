@@ -1,21 +1,38 @@
+diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+index 2a06df6..025ceae 100644
+--- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
++++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+@@ -391,6 +391,11 @@
+ 				pins = "PA13", "PA14";
+ 				function = "uart3";
+ 			};
++
++            uart3_rts_cts_pins: uart3_rts_cts {
++				pins = "PA15", "PA16";
++				function = "uart3";
++			};
+ 		};
+ 
+ 		timer@01c20c00 {
 diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 108f12c..9605db5 100644
+index c01e6d7..fd95572 100644
 --- a/arch/arm64/boot/dts/allwinner/Makefile
 +++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -6,6 +6,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-pc2.dtb
+@@ -6,6 +6,8 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-pc2.dtb
  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-prime.dtb
  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus2.dtb
  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo2.dtb
 +dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-emlid-iota.dtb
++
  
  always		:= $(dtb-y)
- subdir-y	:= $(dts-dirs)
+ subdir-y	:= $(dts-dirs) overlay
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
 new file mode 100644
-index 0000000..27b395b
+index 0000000..cb3fafd
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
-@@ -0,0 +1,198 @@
+@@ -0,0 +1,346 @@
 +/*
 + * Copyright (C) 2017 Aleksandr Aleksandrov <aleksandr.aleksandrov@emlid.com>
 + *
@@ -78,7 +95,19 @@ index 0000000..27b395b
 +
 +	aliases {
 +		serial0 = &uart0;
-+	};
++		/*serial1 = &uart1;
++	    serial2 = &uart2;*/
++	    serial3 = &uart3;
++        /*i2c0 = &i2c0;
++        i2c1 = &i2c1;
++        i2c2 = &i2c2;
++        spi0 = &spi0;
++        spidev0 = &spidev0;
++        ethernet0 = &emac;
++        mmc0 = &mmc0;
++        mmc1 = &mmc1;
++        mmc2 = &mmc2;*/
++    };
 +
 +	chosen {
 +		stdout-path = "serial0:115200n8";
@@ -109,15 +138,17 @@ index 0000000..27b395b
 +		};
 +	};
 +
-+	reg_gmac_3v3: gmac-3v3 {
++	/*reg_gmac_3v3: gmac-3v3 {
 +		compatible = "regulator-fixed";
-+		regulator-name = "gmac-3v3";
++		pinctrl-names = "default";
++        pinctrl-0 = <&gmac_power_pin_board>;
++        regulator-name = "gmac-3v3";
 +		regulator-min-microvolt = <3300000>;
 +		regulator-max-microvolt = <3300000>;
 +		startup-delay-us = <100000>;
 +		enable-active-high;
 +		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>;
-+	};
++	};*/
 +
 +	reg_usb0_vbus: usb0-vbus {
 +		compatible = "regulator-fixed";
@@ -128,15 +159,32 @@ index 0000000..27b395b
 +		gpio = <&r_pio 0 2 GPIO_ACTIVE_HIGH>; /* PL2 */
 +		status = "okay";
 +	};
++
++    wifi_pwrseq: wifi_pwrseq {
++        compatible = "mmc-pwrseq-simple";
++        reset-gpios = <&pio 0 9 GPIO_ACTIVE_LOW>; /* PA9 */
++        post-power-on-delay-ms = <200>;
++    };
++
++    rfkill_bt {
++        compatible = "rfkill-gpio";
++        pinctrl-names = "default";
++        pinctrl-0 = <&bt_pwr_pin>;
++        reset-gpios = <&pio 6 13 GPIO_ACTIVE_HIGH>; /* PG13 */
++        clocks = <&osc32k>;
++        clock-frequency = <32768>;
++        rfkill-name = "sunxi-bt";
++        rfkill-type = "bluetooth";
++    };
 +};
 +
-+&codec {
++/*&codec {
 +	allwinner,audio-routing =
 +		"Line Out", "LINEOUT",
 +		"MIC1", "Mic",
 +		"Mic",  "MBIAS";
 +	status = "okay";
-+};
++};*/
 +
 +&ehci0 {
 +	status = "okay";
@@ -154,10 +202,36 @@ index 0000000..27b395b
 +	status = "okay";
 +};
 +
++/*
 +&ir {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&ir_pins_a>;
 +	status = "okay";
++};*/
++
++&pio {
++    /*gmac_power_pin_board: gmac_power_pin@0 {
++        pins = "PD6";
++        function = "gpio_out";
++    };*/
++
++    bt_pwr_pin: bt_pwr_pin@0 {
++        pins = "PG13";
++        function = "gpio_out";
++    };
++
++    /*spi0_cs_pins: spi0_cs_pins {
++        pins = "PC3", "PA6";   
++        function = "gpio_out";
++    };*/
++};
++
++&r_pio {
++    wifi_wake: wifi_wake@0 {
++        pins = "PL7";
++        function = "irq";
++        bias-pull-up;
++    };
 +};
 +
 +&mmc0 {
@@ -168,6 +242,43 @@ index 0000000..27b395b
 +	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
 +	status = "okay";
 +};
++
++&mmc1 {
++    pinctrl-names = "default";
++    pinctrl-0 = <&mmc1_pins_a>;
++    vmmc-supply = <&reg_vcc3v3>;
++    vqmmc-supply = <&reg_vcc3v3>;
++    mmc-pwrseq = <&wifi_pwrseq>;
++    bus-width = <4>;
++    non-removable;
++    status = "okay";
++
++    brcmf: bcrmf@1 {
++        reg = <1>;
++        compatible = "brcm,bcm4329-fmac";
++        interrupt-parent = <&r_pio>;
++        interrupts = <0 7 IRQ_TYPE_LEVEL_LOW>; /* PL7 / EINT7 */
++        interrupt-names = "host-wake";
++        pinctrl-names = "default";
++        pinctrl-0 = <&wifi_wake>;
++    };
++};
++
++&mmc2 {
++    pinctrl-names = "default";
++    pinctrl-0 = <&mmc2_8bit_pins>;
++    vmmc-supply = <&reg_vcc3v3>;
++    bus-width = <8>;
++    non-removable;
++    cap-mmc-hw-reset;
++    /*boot_device = <0>;*/
++    status = "okay";
++};
++
++/*&mmc2_8bit_pins {
++    drive-strength = <40>;
++    bias-pull-up;
++};*/
 +
 +&ohci0 {
 +	status = "okay";
@@ -190,17 +301,23 @@ index 0000000..27b395b
 +	pinctrl-0 = <&uart0_pins_a>;
 +	status = "okay";
 +};
-+
++/*
 +&uart1 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&uart1_pins>;
-+	status = "disabled";
++	status = "okay";
 +};
 +
 +&uart2 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&uart2_pins>;
-+	status = "disabled";
++	status = "okay";
++};*/
++
++&uart3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart3_pins>, <&uart3_rts_cts_pins>;
++	status = "okay";
 +};
 +
 +&usb_otg {
@@ -214,3 +331,51 @@ index 0000000..27b395b
 +	usb0_vbus-supply = <&reg_usb0_vbus>;
 +	status = "okay";
 +};
++
++/*&i2c0 {
++    status = "okay";
++};
++
++&i2c1 {
++    status = "okay";
++};
++
++&i2c2 {
++    status = "okay";
++};*/
++
++/*&spi0 {
++    #address-cells = <1>;
++    #size-cells = <0>;
++
++    status = "okay";
++    pinctrl-names = "default";
++    pinctrl-0 = <&spi0_pins &spi0_cs_pins>;
++    cs-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>, <&pio 0 6 GPIO_ACTIVE_HIGH>; 
++
++    spidev0: spi@0 {
++        compatible = "spidev";
++        reg = <0>;
++        spi-max-frequency = <10000000>;
++        status = "okay";
++    };
++};*/
++
++
++/*&mdio {
++    ext_rgmii_phy: ethernet-phy@1 {
++        compatible = "ethernet-phy-ieee802.3-c22";
++        reg = <1>;
++    };
++};
++
++&emac {
++    pinctrl-names = "default";
++    pinctrl-0 = <&emac_rgmii_pins>;
++    phy-supply = <&reg_gmac_3v3>;
++    phy-handle = <&ext_rgmii_phy>;
++    phy-mode = "rgmii";
++    local-mac-address = [ 00 00 00 00 00 00 ];
++    allwinner,leds-active-low;
++    status = "okay";
++};*/

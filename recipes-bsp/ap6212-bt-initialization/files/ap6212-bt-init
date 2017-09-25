@@ -1,0 +1,12 @@
+#!/bin/bash
+
+PORT=ttyS3
+MAC_ADDRESS=11:22:33:44:55:66
+FIRMWARE=/etc/firmware/ap6212/4343A0.hcd
+
+echo -n " " > /dev/$PORT
+sleep 1
+brcm_patchram_plus -d  --patchram $FIRMWARE --bd_addr $MAC_ADDRESS --no2bytes --tosleep 1000 /dev/$PORT
+sleep 1
+hciattach /dev/$PORT any
+hciconfig hci0 up

@@ -24,6 +24,7 @@ SRCREV_pn-${PN} = "569dbb88e80deb68974ef6fdd6a13edb9d686261"
 
 SRC_URI = "git://github.com/torvalds/linux.git;protocol=https;branch=master \
         file://defconfig \
+        file://armbian-fixes.patch \
         file://add-emlid-iota.patch \
         "
 S = "${WORKDIR}/git"
