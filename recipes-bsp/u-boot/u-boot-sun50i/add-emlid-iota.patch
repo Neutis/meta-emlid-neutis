@@ -115,10 +115,10 @@ index 0000000..c13d4ec
 +};
 diff --git a/configs/emlid_iota_defconfig b/configs/emlid_iota_defconfig
 new file mode 100644
-index 0000000..f664b00
+index 0000000..c40cc95
 --- /dev/null
 +++ b/configs/emlid_iota_defconfig
-@@ -0,0 +1,17 @@
+@@ -0,0 +1,18 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_SUNXI=y
 +CONFIG_MACH_SUN50I_H5=y
@@ -127,6 +127,7 @@ index 0000000..f664b00
 +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h5-emlid-iota"
 +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
 +CONFIG_SPL=y
++CONFIG_OF_LIBFDT_OVERLAY=y
 +# CONFIG_CMD_IMLS is not set
 +# CONFIG_CMD_FLASH is not set
 +# CONFIG_CMD_FPGA is not set

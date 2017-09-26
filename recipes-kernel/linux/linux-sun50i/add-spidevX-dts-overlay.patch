@@ -1,0 +1,79 @@
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+index 4c945d8..cee0f28 100644
+--- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
++++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+@@ -21,6 +21,8 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-h5-spi-add-cs1.dtbo \
+ 	sun50i-h5-spi-jedec-nor.dtbo \
+ 	sun50i-h5-spi-spidev.dtbo \
++	sun50i-h5-spi-spidev0.dtbo \
++	sun50i-h5-spi-spidev1.dtbo \
+ 	sun50i-h5-uart1.dtbo \
+ 	sun50i-h5-uart2.dtbo \
+ 	sun50i-h5-uart3.dtbo \
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev0.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev0.dts
+new file mode 100644
+index 0000000..131f9e3
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev0.dts
+@@ -0,0 +1,27 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++	compatible = "allwinner,sun50i-h5";
++
++	fragment@0 {
++		target-path = "/aliases";
++		__overlay__ {
++			spi0 = "/soc/spi@01c68000";
++		};
++	};
++
++	fragment@1 {
++		target = <&spi0>;
++		__overlay__ {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			spidev {
++				compatible = "spidev";
++				status = "okay";
++				reg = <0>;
++				spi-max-frequency = <1000000>;
++			};
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev1.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev1.dts
+new file mode 100644
+index 0000000..bef5e9a
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev1.dts
+@@ -0,0 +1,27 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++	compatible = "allwinner,sun50i-h5";
++
++	fragment@0 {
++		target-path = "/aliases";
++		__overlay__ {
++			spi1 = "/soc/spi@01c69000";
++		};
++	};
++
++	fragment@1 {
++		target = <&spi1>;
++		__overlay__ {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			spidev {
++				compatible = "spidev";
++				status = "okay";
++				reg = <0>;
++				spi-max-frequency = <1000000>;
++			};
++		};
++	};
++};

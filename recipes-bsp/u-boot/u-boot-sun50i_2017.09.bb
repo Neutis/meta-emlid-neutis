@@ -26,6 +26,7 @@ DEFAULT_PREFERENCE_sun50i="1"
 
 SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
            file://boot.cmd \
+           file://Env.txt \
            file://bl31.bin \
            file://add-emlid-iota.patch \
            "
@@ -43,6 +44,10 @@ UBOOT_BINARY = "u-boot.itb"
 
 UBOOT_ENV_SUFFIX = "scr"
 UBOOT_ENV = "boot"
+
+do_configure_append() {
+    cp ${WORKDIR}/Env.txt ${DEPLOY_DIR_IMAGE}
+}
 
 do_compile_prepend() {
     cp ${WORKDIR}/bl31.bin ${B}

@@ -26,5 +26,7 @@ SRC_URI = "git://github.com/torvalds/linux.git;protocol=https;branch=master \
         file://defconfig \
         file://armbian-fixes.patch \
         file://add-emlid-iota.patch \
+        file://add-spidevX-dts-overlay.patch \
+        file://add-usbhost1-dts-overlay.patch \
         "
 S = "${WORKDIR}/git"
