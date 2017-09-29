@@ -13,67 +13,92 @@ index 4c945d8..cee0f28 100644
  	sun50i-h5-uart3.dtbo \
 diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev0.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev0.dts
 new file mode 100644
-index 0000000..131f9e3
+index 0000000..df88928
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev0.dts
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,13 @@
 +/dts-v1/;
 +/plugin/;
 +
 +/ {
-+	compatible = "allwinner,sun50i-h5";
++    compatible = "allwinner,sun50i-h5";
 +
-+	fragment@0 {
-+		target-path = "/aliases";
-+		__overlay__ {
-+			spi0 = "/soc/spi@01c68000";
-+		};
-+	};
-+
-+	fragment@1 {
-+		target = <&spi0>;
-+		__overlay__ {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			spidev {
-+				compatible = "spidev";
-+				status = "okay";
-+				reg = <0>;
-+				spi-max-frequency = <1000000>;
-+			};
-+		};
-+	};
++    fragment@0 {
++        target = <&spi0>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
 +};
 diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev1.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev1.dts
 new file mode 100644
-index 0000000..bef5e9a
+index 0000000..ba93b88
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi-spidev1.dts
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,13 @@
 +/dts-v1/;
 +/plugin/;
 +
 +/ {
-+	compatible = "allwinner,sun50i-h5";
++    compatible = "allwinner,sun50i-h5";
 +
-+	fragment@0 {
-+		target-path = "/aliases";
-+		__overlay__ {
-+			spi1 = "/soc/spi@01c69000";
-+		};
-+	};
++    fragment@0 {
++        target = <&spi1>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
+index 3919893..3cf9b3f 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
+@@ -147,3 +147,48 @@
+ 	usb0_vbus-supply = <&reg_usb0_vbus>;
+ 	status = "okay";
+ };
 +
-+	fragment@1 {
-+		target = <&spi1>;
-+		__overlay__ {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			spidev {
-+				compatible = "spidev";
-+				status = "okay";
-+				reg = <0>;
-+				spi-max-frequency = <1000000>;
-+			};
-+		};
-+	};
++&pio {
++    spi0_cs_pins: spi0_cs_pins {
++        pins = "PC3";
++        function = "gpio_out";
++    };
++    spi1_cs_pins: spi1_cs_pins {
++        pins = "PA13";
++        function = "gpio_out";
++    };
++};
++
++&spi0 {
++    #address-cells = <1>;
++    #size-cells = <0>;
++
++    status = "disabled";
++    pinctrl-names = "default";
++    pinctrl-0 = <&spi0_pins &spi0_cs_pins>;
++    cs-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>;    /* PC3 */
++
++    spidev0: spi@0 {
++        compatible = "spidev";
++        reg = <0>;
++        spi-max-frequency = <10000000>;
++        status = "okay";
++    };
++};
++
++&spi1 {
++    #address-cells = <1>;
++    #size-cells = <0>;
++
++    status = "disabled";
++    pinctrl-names = "default";
++    pinctrl-0 = <&spi1_pins &spi1_cs_pins>;
++    cs-gpios = <&pio 0 13 GPIO_ACTIVE_HIGH>;    /* PA13 */
++
++    spidev1: spi@1 {
++        compatible = "spidev";
++        reg = <0>;
++        spi-max-frequency = <10000000>;
++        status = "okay";
++    };
 +};
