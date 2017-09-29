@@ -24,10 +24,11 @@ SRCREV_pn-${PN} = "569dbb88e80deb68974ef6fdd6a13edb9d686261"
 
 SRC_URI = "git://github.com/torvalds/linux.git;protocol=https;branch=master \
         file://defconfig \
-        file://armbian-fixes.patch \
-        file://add-emlid-iota.patch \
-        file://add-spidevX-dts-overlay.patch \
-        file://add-usbhost1-dts-overlay.patch \
-        file://fix-mmc-counter.patch \
+        file://001armbian-fixes.patch \
+        file://002add-emlid-iota.patch \
+        file://003add-spidevX-dts-overlay.patch \
+        file://004add-usbhost1-dts-overlay.patch \
+        file://005fix-mmc-counter.patch \
+        file://add-sun8i-emac-driver-and-dtb.patch \
         "
 S = "${WORKDIR}/git"
