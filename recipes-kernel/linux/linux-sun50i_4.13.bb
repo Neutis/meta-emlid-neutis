@@ -29,6 +29,5 @@ SRC_URI = "git://github.com/torvalds/linux.git;protocol=https;branch=master \
         file://003add-spidevX-dts-overlay.patch \
         file://004add-usbhost1-dts-overlay.patch \
         file://005fix-mmc-counter.patch \
-        file://add-sun8i-emac-driver-and-dtb.patch \
         "
 S = "${WORKDIR}/git"
