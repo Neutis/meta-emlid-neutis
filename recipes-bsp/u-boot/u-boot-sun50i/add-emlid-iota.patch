@@ -115,16 +115,17 @@ index 0000000..c13d4ec
 +};
 diff --git a/configs/emlid_iota_defconfig b/configs/emlid_iota_defconfig
 new file mode 100644
-index 0000000..c40cc95
+index 0000000..b498145
 --- /dev/null
 +++ b/configs/emlid_iota_defconfig
-@@ -0,0 +1,18 @@
+@@ -0,0 +1,19 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_SUNXI=y
 +CONFIG_MACH_SUN50I_H5=y
 +CONFIG_DRAM_CLK=672
 +CONFIG_DRAM_ZQ=3881977
 +CONFIG_DEFAULT_DEVICE_TREE="sun50i-h5-emlid-iota"
++CONFIG_MMC_SUNXI_SLOT_EXTRA=2
 +# CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
 +CONFIG_SPL=y
 +CONFIG_OF_LIBFDT_OVERLAY=y
