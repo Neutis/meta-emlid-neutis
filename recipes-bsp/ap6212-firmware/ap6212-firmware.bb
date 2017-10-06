@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.broadcom;md5=18b6b752a010900b9c111f528f8c8ffd
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/:"
 
 SRC_URI += "\
-    file://brcm_patchram_plus-armv8 \
+    file://brcm_patchram_plus-armv8-repo \
     file://fw_bcm43438a0_apsta.bin \
     file://fw_bcm43438a0.bin \
     file://fw_bcm43438a0_p2p.bin \
@@ -20,7 +20,7 @@ SRC_URI += "\
 
 do_install_append() {
     install -d ${D}${bindir}
-    install -m 755 ${WORKDIR}/brcm_patchram_plus-armv8 ${D}${bindir}/brcm_patchram_plus
+    install -m 755 ${WORKDIR}/brcm_patchram_plus-armv8-repo ${D}${bindir}/brcm_patchram_plus
     
     install -d ${D}${base_libdir}/firmware/ap6212
     install -c -m 0644 ${WORKDIR}/fw_bcm43438a0_apsta.bin ${D}${base_libdir}/firmware/ap6212
@@ -47,6 +47,7 @@ do_install_append() {
 inherit base
 
 FILES_${PN} += "\
+    ${bindir}/brcm_patchram_plus \
     ${base_libdir}/firmware/ap6212/fw_bcm43438a0_apsta.bin \
     ${base_libdir}/firmware/ap6212/fw_bcm43438a0.bin \
     ${base_libdir}/firmware/ap6212/fw_bcm43438a0_p2p.bin \

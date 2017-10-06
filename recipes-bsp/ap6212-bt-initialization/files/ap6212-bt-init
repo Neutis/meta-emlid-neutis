@@ -1,11 +1,22 @@
 #!/bin/bash
 
-PORT=ttyS3
+# AP6212A
+# BT_RST_PIN - PA10
+# UART1
+
+BT_RST_PIN=10
+PORT=ttyS1
 MAC_ADDRESS=11:22:33:44:55:66
-FIRMWARE=/etc/firmware/ap6212/4343A0.hcd
+FIRMWARE=/etc/firmware/ap6212/4343A1.hcd
+
+echo $BT_RST_PIN > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio$BT_RST_PIN/direction
+echo 0 > /sys/class/gpio/gpio$BT_RST_PIN/value
+sleep 1
+echo 1 > /sys/class/gpio/gpio$BT_RST_PIN/value
+sleep 1
 
 echo -n " " > /dev/$PORT
-sleep 1
 brcm_patchram_plus -d  --patchram $FIRMWARE --bd_addr $MAC_ADDRESS --no2bytes --tosleep 1000 /dev/$PORT
 sleep 1
 hciattach /dev/$PORT any
