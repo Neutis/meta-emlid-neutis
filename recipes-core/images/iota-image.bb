@@ -1,9 +1,8 @@
 SUMMARY = "An image to run Emlid Iota"
 LICENSE = "MIT"
 
-# PACKAGE_CLASSES += "package_ipk"
-IMAGE_FEATURES += "splash"
-# IMAGE_FEATURES += "package-management ssh-server-openssh"
+PACKAGE_CLASSES = "package_ipk"
+IMAGE_FEATURES += "splash package-management ssh-server-openssh"
 
 IMAGE_INSTALL_append += "kernel-modules"
 IMAGE_INSTALL_append += "bash"
