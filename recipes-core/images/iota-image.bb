@@ -46,3 +46,9 @@ IMAGE_INSTALL_append += "htop"
 # IMAGE_INSTALL_append += "python"
 
 inherit core-image
+
+ROOTFS_POSTPROCESS_COMMAND += "clean_boot_dir ; "
+
+clean_boot_dir () {
+    rm -r ${IMAGE_ROOTFS}/boot/*
+}
