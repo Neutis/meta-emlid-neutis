@@ -38,12 +38,19 @@ IMAGE_INSTALL_append += "screen"
 IMAGE_INSTALL_append += "rsync"
 IMAGE_INSTALL_append += "sudo"
 IMAGE_INSTALL_append += "lsof"
-IMAGE_INSTALL_append += "parted"
 IMAGE_INSTALL_append += "strace"
 IMAGE_INSTALL_append += "htop"
 
+IMAGE_INSTALL_append += "parted"
+IMAGE_INSTALL_append += "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs"
+IMAGE_INSTALL_append += "e2fsprogs-badblocks libcomerr libss libe2p libext2fs dosfstools"
+
 # Python
-# IMAGE_INSTALL_append += "python"
+IMAGE_INSTALL_append += "python"
+IMAGE_INSTALL_append += "python-dbus python-pygobject python-argparse"
+IMAGE_INSTALL_append += "python-distutils python-pkgutil python-netserver"
+IMAGE_INSTALL_append += "python-xmlrpc python-ctypes python-html python-json python-compile"
+IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc python-importlib"
 
 inherit core-image
 
