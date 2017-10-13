@@ -10,6 +10,6 @@ Tested with iota-image, core-image-base.
 
 Copy `bblayers.conf.sample` and `bblayers.conf.sample` from `meta-iota-distro/conf` to build directory.
 
-Execute `bitbake iota-image` to build image.
+Execute `bitbake iota-image` to build image, storage device target - eMMc(/dev/mmcblk2).
 
 You will find your image file here: `build/tmp/deploy/images/iota/iota-image-iota-%timedate.rootfs.sunxi-sdimg`.
