@@ -20,15 +20,16 @@ DEFAULT_PREFERENCE = "-1"
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 	
 PV = "4.13+git${SRCPV}"
-SRCREV_pn-${PN} = "569dbb88e80deb68974ef6fdd6a13edb9d686261"
+SRCREV_pn-${PN} = "e9dde66df5f719b063aaea8acf073cbfc6952821"
 
-SRC_URI = "git://github.com/torvalds/linux.git;protocol=https;branch=master \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;protocol=https;branch=linux-4.13.y \
         file://defconfig \
         file://001armbian-fixes.patch \
         file://002add-emlid-iota.patch \
         file://003add-spidevX-dts-overlay.patch \
         file://004add-usbhost1-dts-overlay.patch \
         file://005update-uart1-dts.patch \
-        file://006add-r-uart-and-r-i2c-dts.patch \
+        file://006add-r-uart-dts-and-r-i2c-overlay.patch \
         "
+
 S = "${WORKDIR}/git"

@@ -1,8 +1,8 @@
 diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-index 2a06df6..ce5d9eb 100644
+index 2e9316e..c3a6d4c 100644
 --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
 +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-@@ -578,6 +578,19 @@
+@@ -817,6 +817,19 @@
  			status = "disabled";
  		};
  
@@ -22,43 +22,18 @@ index 2a06df6..ce5d9eb 100644
  		i2c0: i2c@01c2ac00 {
  			compatible = "allwinner,sun6i-a31-i2c";
  			reg = <0x01c2ac00 0x400>;
-@@ -617,6 +630,19 @@
- 			#size-cells = <0>;
- 		};
- 
-+		r_i2c: i2c@01f02400 {
-+			compatible = "allwinner,sun6i-a31-i2c";
-+			reg = <0x01f02400 0x400>;
-+			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&r_ccu CLK_APB0_I2C>;
-+			resets = <&r_ccu RST_APB0_I2C>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&r_i2c_pins_a>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
- 		gic: interrupt-controller@01c81000 {
- 			compatible = "arm,gic-400";
- 			reg = <0x01c81000 0x1000>,
-@@ -675,6 +701,16 @@
- 				pins = "PL11";
+@@ -929,6 +942,11 @@
  				function = "s_cir_rx";
  			};
-+
-+			r_i2c_pins_a: r_i2c@0 {
-+				pins = "PL0", "PL1";
-+				function = "s_twi";
-+			};
-+
-+			r_uart_pins_a: r_uart@0 {
+ 
++			r_uart_pins: r_uart {
 +				pins = "PL2", "PL3";
 +				function = "s_uart";
 +			};
- 		};
- 	};
- };
++
+ 			r_i2c_pins: r-i2c {
+ 				pins = "PL0", "PL1";
+ 				function = "s_i2c";
 diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
 index f9f10d7..c575716 100644
 --- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
@@ -81,7 +56,7 @@ index f9f10d7..c575716 100644
  	sun50i-h5-usbhost2.dtbo \
 diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts
 new file mode 100644
-index 0000000..310c557
+index 0000000..89d026e
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts
 @@ -0,0 +1,20 @@
@@ -89,25 +64,25 @@ index 0000000..310c557
 +/plugin/;
 +
 +/ {
-+	compatible = "allwinner,sun50i-h5";
++    compatible = "allwinner,sun50i-h5";
 +
-+	fragment@0 {
-+		target-path = "/aliases";
-+		__overlay__ {
-+			r_i2c = "/soc/i2c@01f02400";
-+		};
-+	};
++    fragment@0 {
++        target-path = "/aliases";
++        __overlay__ {
++            r_i2c = "/soc/i2c@01f02400";
++        };
++    };
 +
-+	fragment@1 {
-+		target = <&r_i2c>;
-+		__overlay__ {
-+			status = "okay";
-+		};
-+	};
++    fragment@1 {
++        target = <&r_i2c>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
 +};
 diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts
 new file mode 100644
-index 0000000..d20f854
+index 0000000..3ac50eb
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts
 @@ -0,0 +1,22 @@
@@ -115,21 +90,21 @@ index 0000000..d20f854
 +/plugin/;
 +
 +/ {
-+	compatible = "allwinner,sun50i-h5";
++    compatible = "allwinner,sun50i-h5";
 +
-+	fragment@0 {
-+		target-path = "/aliases";
-+		__overlay__ {
-+			serial4 = "/soc/serial@01f02800";
-+		};
-+	};
++    fragment@0 {
++        target-path = "/aliases";
++        __overlay__ {
++            serial4 = "/soc/serial@01f02800";
++        };
++    };
 +
-+	fragment@1 {
-+		target = <&r_uart>;
-+		 __overlay__ {
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&r_uart_pins_a>;
-+			status = "okay";
-+		};
-+	};
++    fragment@1 {
++        target = <&r_uart>;
++        __overlay__ {
++            pinctrl-names = "default";
++            pinctrl-0 = <&r_uart_pins>;
++            status = "okay";
++        };
++    };
 +};
