@@ -1,0 +1,107 @@
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+index c575716..b409cbe 100644
+--- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
++++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+@@ -32,7 +32,8 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-h5-usbhost1.dtbo \
+ 	sun50i-h5-usbhost2.dtbo \
+ 	sun50i-h5-usbhost3.dtbo \
+-	sun50i-h5-w1-gpio.dtbo
++	sun50i-h5-w1-gpio.dtbo \
++	sun50i-h5-ethernet0.dtbo
+ 
+ scr-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-a64-fixup.scr \
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ethernet0.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ethernet0.dts
+new file mode 100644
+index 0000000..e55ec89
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ethernet0.dts
+@@ -0,0 +1,20 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++    compatible = "allwinner,sun50i-h5";
++
++    fragment@0 {
++        target-path = "/aliases";
++        __overlay__ {
++            ethernet0 = "/soc/ethernet@1c30000";
++        };
++    };
++
++    fragment@1 {
++        target = <&emac>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
+index 3cf9b3f..b058ff4 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-iota.dts
+@@ -58,6 +58,7 @@
+ 
+ 	aliases {
+ 		serial0 = &uart0;
++		ethernet0 = &emac;
+     };
+ 
+ 	chosen {
+@@ -74,11 +75,21 @@
+ 		status = "okay";
+ 	};
+ 
+-    wifi_pwrseq: wifi_pwrseq {
+-        compatible = "mmc-pwrseq-simple";
+-        reset-gpios = <&pio 0 9 GPIO_ACTIVE_LOW>; /* PA9 */
+-        post-power-on-delay-ms = <200>;
+-    };
++	reg_gmac_3v3: gmac-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "gmac-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		startup-delay-us = <100000>;
++		enable-active-high;
++		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>;
++	};
++
++	wifi_pwrseq: wifi_pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&pio 0 9 GPIO_ACTIVE_LOW>; /* PA9 */
++		post-power-on-delay-ms = <200>;
++	};
+ };
+ 
+ &r_pio {
+@@ -126,7 +137,6 @@
+     bus-width = <8>;
+     non-removable;
+     cap-mmc-hw-reset;
+-    /*boot_device = <0>;*/
+     status = "okay";
+ };
+ 
+@@ -192,3 +202,19 @@
+         status = "okay";
+     };
+ };
++
++&emac {
++    pinctrl-names = "default";
++    pinctrl-0 = <&emac_rgmii_pins>;
++    phy-supply = <&reg_gmac_3v3>;
++    phy-handle = <&ext_rgmii_phy>;
++    phy-mode = "rgmii";
++    status = "disabled";
++};
++
++&mdio {
++    ext_rgmii_phy: ethernet-phy@1 {
++        compatible = "ethernet-phy-ieee802.3-c22";
++        reg = <7>;
++    };
++};

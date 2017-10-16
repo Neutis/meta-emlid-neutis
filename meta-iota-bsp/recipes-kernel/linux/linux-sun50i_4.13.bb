@@ -30,6 +30,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
         file://004add-usbhost1-dts-overlay.patch \
         file://005update-uart1-dts.patch \
         file://006add-r-uart-dts-and-r-i2c-overlay.patch \
+        file://007add-ethernet0-dts-and-overlay.patch \
         "
 
 S = "${WORKDIR}/git"
