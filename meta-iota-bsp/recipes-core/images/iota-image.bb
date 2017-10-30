@@ -40,6 +40,7 @@ IMAGE_INSTALL_append += "sudo"
 IMAGE_INSTALL_append += "lsof"
 IMAGE_INSTALL_append += "strace"
 IMAGE_INSTALL_append += "htop"
+IMAGE_INSTALL_append += "zip"
 
 IMAGE_INSTALL_append += "parted"
 IMAGE_INSTALL_append += "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs"
