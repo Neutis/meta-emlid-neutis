@@ -1,0 +1,31 @@
+#!/bin/bash
+
+enable_sta_mode() {
+    systemctl stop hostapd dnsmasq busybox-udhcpd
+    systemctl restart NetworkManager
+}
+
+enable_ap_mode() {
+    systemctl stop hostapd dnsmasq busybox-udhcpd
+    sed -i 's/DHCPD_ENABLED="no"/DHCPD_ENABLED="yes"/g' /etc/default/udhcpd
+
+    ifup -i /etc/network/hostap-interfaces wlan0 up
+    sleep 3
+    ifconfig wlan0 192.168.42.1
+
+    systemctl start busybox-udhcpd dnsmasq hostapd
+}
+
+case $1 in
+    "sta")
+        ifconfig wlan0 down
+        enable_sta_mode
+        ;;
+    "ap")
+        ifconfig wlan0 down
+        enable_ap_mode
+        ;;
+    *)
+        echo "Usage: $0 mode[sta|ap]"
+        exit 1
+esac

@@ -6,6 +6,7 @@ IMAGE_FEATURES += "splash package-management ssh-server-openssh"
 
 IMAGE_INSTALL_append += "kernel-modules"
 IMAGE_INSTALL_append += "bash"
+IMAGE_INSTALL_append += "busybox"
 IMAGE_INSTALL_append += "systemd"
 IMAGE_INSTALL_append += "opkg"
 
@@ -22,8 +23,9 @@ IMAGE_INSTALL_append += "hostapd"
 IMAGE_INSTALL_append += "wireless-tools"
 IMAGE_INSTALL_append += "wpa-supplicant"
 IMAGE_INSTALL_append += "networkmanager"
+IMAGE_INSTALL_append += "init-ifupdown"
+IMAGE_INSTALL_append += "wifi-mode-switcher"
 IMAGE_INSTALL_append += "bluez5"
-# IMAGE_INSTALL_append += "packagegroup-tools-bluetooth"
 IMAGE_INSTALL_append += "ap6212-firmware"
 IMAGE_INSTALL_append += "ap6212-bt-initialization"
 
@@ -51,6 +53,9 @@ IMAGE_INSTALL_append += "python-dbus python-pygobject python-argparse"
 IMAGE_INSTALL_append += "python-distutils python-pkgutil python-netserver"
 IMAGE_INSTALL_append += "python-xmlrpc python-ctypes python-html python-json python-compile"
 IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc python-importlib"
+
+# Post install
+IMAGE_INSTALL_append += "post-install"
 
 inherit core-image
 
