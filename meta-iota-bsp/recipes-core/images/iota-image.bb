@@ -55,9 +55,6 @@ IMAGE_INSTALL_append += "python-distutils python-pkgutil python-netserver"
 IMAGE_INSTALL_append += "python-xmlrpc python-ctypes python-html python-json python-compile"
 IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc python-importlib"
 
-# Post install
-IMAGE_INSTALL_append += "post-install"
-
 inherit core-image
 
 ROOTFS_POSTPROCESS_COMMAND += "clean_boot_dir ; "
