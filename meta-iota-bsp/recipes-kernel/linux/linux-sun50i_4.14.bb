@@ -28,6 +28,7 @@ SRC_URI = "git://git@github.com/emlid/linux-iota.git;protocol=ssh;branch=4.14-em
         file://0003-arm64-dts-allwinner-add-overlays-for-a64-and-h5-SoCs.patch \
         file://0004-arm-dts-allwinner-add-overlays-for-a10-a20-and-h3.patch \
         file://0005-arm-dts-add-uart2-uart3-rts_cts-pins-for-sunxi-h3-h5.patch \
+        file://0006-arm-dts-allwinner-enable-spidev-for-emlid-iota-add-new-overlays.patch \
         "
 
 S = "${WORKDIR}/git"
