@@ -1,0 +1,242 @@
+From 2cf048b4306b474a1195dcdc5c0efdeb11e1dbff Mon Sep 17 00:00:00 2001
+From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
+Date: Sat, 25 Nov 2017 15:45:35 +0300
+Subject: [PATCH] arm: dts: allwinner: add r-uart and r-i2c for sunxi-h3-h5
+
+- fix register for i2c2 controller
+- new overlays to enable r-uart and r-i2c for each SoC
+---
+ arch/arm/boot/dts/overlay/Makefile                 |  2 ++
+ arch/arm/boot/dts/overlay/sun8i-h3-r-i2c.dts       | 20 ++++++++++++
+ arch/arm/boot/dts/overlay/sun8i-h3-r-uart.dts      | 22 +++++++++++++
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi                 | 38 +++++++++++++++++++++-
+ arch/arm64/boot/dts/allwinner/overlay/Makefile     |  2 ++
+ .../boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts | 20 ++++++++++++
+ .../dts/allwinner/overlay/sun50i-h5-r-uart.dts     | 22 +++++++++++++
+ 7 files changed, 125 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-r-i2c.dts
+ create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-r-uart.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts
+
+diff --git a/arch/arm/boot/dts/overlay/Makefile b/arch/arm/boot/dts/overlay/Makefile
+index e06a0d6..0a9b902 100644
+--- a/arch/arm/boot/dts/overlay/Makefile
++++ b/arch/arm/boot/dts/overlay/Makefile
+@@ -54,6 +54,7 @@ dtbo-$(CONFIG_MACH_SUN8I) += \
+ 	sun8i-h3-i2c0.dtbo \
+ 	sun8i-h3-i2c1.dtbo \
+ 	sun8i-h3-i2c2.dtbo \
++	sun8i-h3-r-i2c.dtbo \
+ 	sun8i-h3-pps-gpio.dtbo \
+ 	sun8i-h3-pwm.dtbo \
+ 	sun8i-h3-spdif-out.dtbo \
+@@ -65,6 +66,7 @@ dtbo-$(CONFIG_MACH_SUN8I) += \
+ 	sun8i-h3-uart1.dtbo \
+ 	sun8i-h3-uart2.dtbo \
+ 	sun8i-h3-uart3.dtbo \
++	sun8i-h3-r-uart.dtbo \
+ 	sun8i-h3-usbhost0.dtbo \
+ 	sun8i-h3-usbhost1.dtbo \
+ 	sun8i-h3-usbhost2.dtbo \
+diff --git a/arch/arm/boot/dts/overlay/sun8i-h3-r-i2c.dts b/arch/arm/boot/dts/overlay/sun8i-h3-r-i2c.dts
+new file mode 100644
+index 0000000..7781f59
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun8i-h3-r-i2c.dts
+@@ -0,0 +1,20 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++	compatible = "allwinner,sun8i-h3";
++
++	fragment@0 {
++		target-path = "/aliases";
++		__overlay__ {
++			r_i2c = "/soc/i2c@01f02400";
++		};
++	};
++
++	fragment@1 {
++		target = <&r_i2c>;
++		__overlay__ {
++			status = "okay";
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/overlay/sun8i-h3-r-uart.dts b/arch/arm/boot/dts/overlay/sun8i-h3-r-uart.dts
+new file mode 100644
+index 0000000..6dbd319
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun8i-h3-r-uart.dts
+@@ -0,0 +1,22 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++	compatible = "allwinner,sun8i-h3";
++
++	fragment@0 {
++		target-path = "/aliases";
++		__overlay__ {
++			serial4 = "/soc/serial@01f02800";
++		};
++	};
++
++	fragment@1 {
++		target = <&r_uart>;
++		 __overlay__ {
++			pinctrl-names = "default";
++			pinctrl-0 = <&r_uart_pins_a>;
++			status = "okay";
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+index 710c009..3658f50 100644
+--- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
++++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+@@ -526,6 +526,19 @@
+ 			status = "disabled";
+ 		};
+ 
++		r_uart: serial@01f02800 {
++			compatible = "snps,dw-apb-uart";
++			reg = <0x01f02800 0x400>;
++			interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
++			reg-shift = <2>;
++			reg-io-width = <4>;
++			clocks = <&r_ccu CLK_APB0_UART>;
++			resets = <&r_ccu RST_APB0_UART>;
++			dmas = <&dma 10>, <&dma 10>;
++			dma-names = "rx", "tx";
++			status = "disabled";
++		};
++
+ 		i2c0: i2c@01c2ac00 {
+ 			compatible = "allwinner,sun6i-a31-i2c";
+ 			reg = <0x01c2ac00 0x400>;
+@@ -554,7 +567,7 @@
+ 
+ 		i2c2: i2c@01c2b400 {
+ 			compatible = "allwinner,sun6i-a31-i2c";
+-			reg = <0x01c2b000 0x400>;
++			reg = <0x01c2b400 0x400>;
+ 			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_I2C2>;
+ 			resets = <&ccu RST_BUS_I2C2>;
+@@ -565,6 +578,19 @@
+ 			#size-cells = <0>;
+ 		};
+ 
++		r_i2c: i2c@01f02400 {
++			compatible = "allwinner,sun6i-a31-i2c";
++			reg = <0x01f02400 0x400>;
++			interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&r_ccu CLK_APB0_I2C>;
++			resets = <&r_ccu RST_APB0_I2C>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&r_i2c_pins>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
+ 		gic: interrupt-controller@01c81000 {
+ 			compatible = "arm,gic-400";
+ 			reg = <0x01c81000 0x1000>,
+@@ -619,6 +645,16 @@
+ 			interrupt-controller;
+ 			#interrupt-cells = <3>;
+ 
++			r_i2c_pins: r_i2c@0 {
++				pins = "PL0", "PL1";
++				function = "s_i2c";
++			};
++
++			r_uart_pins_a: r_uart@0 {
++				pins = "PL2", "PL3";
++				function = "s_uart";
++			};
++
+ 			ir_pins_a: ir@0 {
+ 				pins = "PL11";
+ 				function = "s_cir_rx";
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+index 511eee8..5d73c82 100644
+--- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
++++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+@@ -15,6 +15,7 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-h5-i2c0.dtbo \
+ 	sun50i-h5-i2c1.dtbo \
+ 	sun50i-h5-i2c2.dtbo \
++	sun50i-h5-r-i2c.dtbo \
+ 	sun50i-h5-pps-gpio.dtbo \
+ 	sun50i-h5-pwm.dtbo \
+ 	sun50i-h5-spdif-out.dtbo \
+@@ -26,6 +27,7 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-h5-uart1.dtbo \
+ 	sun50i-h5-uart2.dtbo \
+ 	sun50i-h5-uart3.dtbo \
++	sun50i-h5-r-uart.dtbo \
+ 	sun50i-h5-usbhost0.dtbo \
+ 	sun50i-h5-usbhost1.dtbo \
+ 	sun50i-h5-usbhost2.dtbo \
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts
+new file mode 100644
+index 0000000..310c557
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts
+@@ -0,0 +1,20 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++	compatible = "allwinner,sun50i-h5";
++
++	fragment@0 {
++		target-path = "/aliases";
++		__overlay__ {
++			r_i2c = "/soc/i2c@01f02400";
++		};
++	};
++
++	fragment@1 {
++		target = <&r_i2c>;
++		__overlay__ {
++			status = "okay";
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts
+new file mode 100644
+index 0000000..d20f854
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts
+@@ -0,0 +1,22 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++	compatible = "allwinner,sun50i-h5";
++
++	fragment@0 {
++		target-path = "/aliases";
++		__overlay__ {
++			serial4 = "/soc/serial@01f02800";
++		};
++	};
++
++	fragment@1 {
++		target = <&r_uart>;
++		 __overlay__ {
++			pinctrl-names = "default";
++			pinctrl-0 = <&r_uart_pins_a>;
++			status = "okay";
++		};
++	};
++};
+-- 
+2.7.4
+
