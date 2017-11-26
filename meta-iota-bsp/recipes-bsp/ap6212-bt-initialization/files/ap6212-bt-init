@@ -8,6 +8,7 @@ BT_RST_PIN=10
 PORT=ttyS1
 MAC_ADDRESS=11:22:33:44:55:66
 FIRMWARE=/etc/firmware/ap6212/4343A1.hcd
+BAUDRATE=1500000
 
 echo $BT_RST_PIN > /sys/class/gpio/export
 echo out > /sys/class/gpio/gpio$BT_RST_PIN/direction
@@ -16,8 +17,7 @@ sleep 1
 echo 1 > /sys/class/gpio/gpio$BT_RST_PIN/value
 sleep 1
 
-echo -n " " > /dev/$PORT
-brcm_patchram_plus -d  --patchram $FIRMWARE --bd_addr $MAC_ADDRESS --no2bytes --tosleep 1000 /dev/$PORT
+brcm_patchram_plus --patchram $FIRMWARE --bd_addr $MAC_ADDRESS --no2bytes --use_baudrate_for_download --baudrate $BAUDRATE --tosleep 5000 /dev/$PORT
 sleep 1
 hciattach /dev/$PORT any
 hciconfig hci0 up
