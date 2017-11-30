@@ -31,6 +31,8 @@ SRC_URI = "git://git@github.com/emlid/linux-iota.git;protocol=ssh;branch=4.14-em
         file://0006-arm-dts-allwinner-enable-spidev-for-emlid-iota-add-new-overlays.patch \
         file://0007-arm-dts-allwinner-add-r-uart-and-r-i2c-for-h3-h5-SoCs-and-i2c2-register-fix.patch \
         file://0008-arm-dts-allwinner-update-DT-file-for-emlid-iota-increase-i2c-clock-frequency.patch \
+        file://0009-fix-bt-ap6212-rtc-sun6i-Enable-LOSC-output-gating.patch \
+        file://0010-net-rfkill-gpio-arm64-dts-allwinner-emld-iota-enable-rfkill-switcher-for-bt-ap6212.patch \
         "
 
 S = "${WORKDIR}/git"

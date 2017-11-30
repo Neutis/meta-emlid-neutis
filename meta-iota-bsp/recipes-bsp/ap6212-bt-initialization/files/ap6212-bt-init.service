@@ -1,10 +1,9 @@
 [Unit]
-Description=Bluetooth initialization for AP6212 
+Description=Bluetooth initialization for AP6212(A)
 Before=bluetooth.service
 
 [Service]
 Type=forking
-ExecStartPre=/usr/sbin/rfkill unblock bluetooth
 ExecStart=/usr/bin/ap6212-bt-init
 
 [Install]
