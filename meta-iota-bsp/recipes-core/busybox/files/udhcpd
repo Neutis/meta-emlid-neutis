@@ -1,5 +1,5 @@
 # Comment the following line to enable
-DHCPD_ENABLED="no"
+DHCPD_ENABLED="yes"
 
 # Options to pass to busybox' udhcpd.
 #
