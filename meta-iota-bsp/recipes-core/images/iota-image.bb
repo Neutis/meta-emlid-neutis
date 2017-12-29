@@ -2,7 +2,7 @@ SUMMARY = "An image to run Emlid Iota"
 LICENSE = "MIT"
 
 PACKAGE_CLASSES = "package_ipk"
-IMAGE_FEATURES += "splash package-management ssh-server-openssh"
+IMAGE_FEATURES += "splash package-management ssh-server-openssh tools-sdk tools-debug"
 
 IMAGE_INSTALL_append += "kernel-modules"
 IMAGE_INSTALL_append += "bash"
@@ -44,7 +44,6 @@ IMAGE_INSTALL_append += "strace"
 IMAGE_INSTALL_append += "htop"
 IMAGE_INSTALL_append += "zip"
 
-IMAGE_INSTALL_append += "gcc"
 IMAGE_INSTALL_append += "make"
 IMAGE_INSTALL_append += "cmake"
 
