@@ -28,12 +28,12 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
            file://boot.cmd \
            file://Env.txt \
            file://bl31.bin \
-           file://add-emlid-iota.patch \
+           file://0001-arm-dts-add-new-emlid-board.patch \
            "
 
-SRCREV = "c98ac3487e413c71e5d36322ef3324b21c6f60f9"
+SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
 
-PV = "v2017.9+git${SRCPV}"
+PV = "v2018.01+git${SRCPV}"
 
 PE = "2"
 
