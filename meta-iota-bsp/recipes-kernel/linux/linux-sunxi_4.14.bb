@@ -19,9 +19,9 @@ DEFAULT_PREFERENCE = "-1"
 
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"	
 PV = "4.14+git${SRCPV}"
-SRCREV_pn-${PN} = "bebc6082da0a9f5d47a1ea2edc099bf671058bd4"
+SRCREV_pn-${PN} = "f9f0b03dedc19a6363a305d119efcb48667a3027"
 
-SRC_URI = "git://git@github.com/emlid/linux-iota.git;protocol=ssh;branch=4.14-emlid-iota \
+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-4.14.y \
         file://defconfig \
         file://0001-arm64-dts-allwinner-add-DT-file-for-emlid-iota-board.patch \
         file://0002-compilation-DT-add-overlay-compilation-support.patch \
@@ -32,6 +32,7 @@ SRC_URI = "git://git@github.com/emlid/linux-iota.git;protocol=ssh;branch=4.14-em
         file://0007-arm-dts-allwinner-add-r-uart-and-r-i2c-for-h3-h5-SoCs-and-i2c2-register-fix.patch \
         file://0008-fix-bt-ap6212-rtc-sun6i-Enable-LOSC-output-gating.patch \
         file://0009-net-rfkill-gpio-arm64-dts-allwinner-emld-iota-enable-rfkill-switcher-for-bt-ap6212.patch \
+        file://0010-arm-dts-allwinner-fix-DT-file-for-emlid-iota-gpio-pins.patch \
         "
 
 S = "${WORKDIR}/git"
