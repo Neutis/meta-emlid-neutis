@@ -2,8 +2,9 @@ DESCRIPTION="Upstream's U-boot configured for sunxi devices"
 FILESEXTRAPATHS_prepend := "${THISDIR}/u-boot-sun50i/:"
 
 require recipes-bsp/u-boot/u-boot.inc
+inherit pythonnative
 
-DEPENDS += "dtc-native"
+DEPENDS += "dtc-native swig-native python-dev python-native"
 
 LICENSE = "GPLv2"
 
