@@ -5,7 +5,7 @@
 
 setenv loglevel "10"
 setenv rootdev "/dev/mmcblk0p2"
-setenv device "0"
+setenv device "1"
 setenv load_addr "0x44000000"
 setenv overlay_error "false"
 
