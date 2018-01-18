@@ -28,6 +28,7 @@ cd poky
 ```
 git clone git@github.com:AD-Aleksandrov/meta-sunxi.git -b master
 git clone git@github.com:openembedded/meta-openembedded.git -b pyro
+git clone git@github.com:emlid/meta-iota.git -b master
 ```
 
 3. Update environment and copy the rigth conf files.
