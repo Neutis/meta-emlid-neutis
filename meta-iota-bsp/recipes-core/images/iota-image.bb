@@ -58,6 +58,9 @@ IMAGE_INSTALL_append += "python-distutils python-pkgutil python-netserver"
 IMAGE_INSTALL_append += "python-xmlrpc python-ctypes python-html python-json python-compile"
 IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc python-importlib"
 
+# BSP
+IMAGE_INSTALL_append += "reflash-utility"
+
 inherit core-image
 
 ROOTFS_POSTPROCESS_COMMAND += "clean_boot_dir ; "

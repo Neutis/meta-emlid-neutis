@@ -1,0 +1,11 @@
+[Unit]
+Description=Service for switching the device to FEL mode
+After=dev-ttyGS0.device
+Requires=dev-ttyGS0.device
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/goto-fel
+
+[Install]
+WantedBy=multi-user.target
