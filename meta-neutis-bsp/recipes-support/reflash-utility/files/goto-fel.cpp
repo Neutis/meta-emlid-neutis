@@ -19,8 +19,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 #include <stdio.h>
-#include <string>
-#include <cstring>
+#include <string.h>
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
@@ -111,8 +110,8 @@ fail:
 
 int waitForCmd(int fd)
 {
-    std::string output;
-    char buff[4096];
+    char output[4096] = "";
+    char buff[128];
     long long start_time;
 
     start_time = gettime_ms();
@@ -121,10 +120,16 @@ int waitForCmd(int fd)
         if (read(fd, buff, sizeof(buff)) <= 0) {
             usleep(10 * 1000);      /* 10 ms */
         } else {
-            output += std::string(buff);
+            if (strlen(buff) + strlen(output) < sizeof(output)) {
+                strcat(output, buff);
+            } else {
+                memset(output, '\0', sizeof(output));
+                strcat(output, buff);
+            }
+
             memset(buff, '\0', sizeof(buff));
 
-            if (output.find(MAGIC_WORD) != std::string::npos)
+            if (strstr(output, MAGIC_WORD) != NULL)
                 return FEL_MODE;
         }
     }
@@ -141,17 +146,17 @@ long long gettime_ms(void)
 
 void enterFELMode(void)
 {
-    std::string dd_cmd;
+    char dd_cmd[4096];
     FILE* pipe;
     char buff[128];
 
-    dd_cmd.append("/bin/dd if=/dev/zero of=");
-    dd_cmd.append(BLOCK_DEVICE);
-    dd_cmd.append(" bs=1024 count=40");
+    strcpy(dd_cmd, "/bin/dd if=/dev/zero of=");
+    strcat(dd_cmd, BLOCK_DEVICE);
+    strcat(dd_cmd, " bs=1024 count=40");
 
     /* Clear the boot part of block device, allwinner won't be able to find
        the magic word and boot, it means that SoC will go to FEL mode */
-    pipe = popen(dd_cmd.c_str(), "r");
+    pipe = popen(dd_cmd, "r");
 
     if (!pipe) {
         fprintf(stderr, "Unable to clear block device using 'dd'.\n");
