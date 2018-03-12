@@ -10,8 +10,8 @@ BBLAYERS ?= " \
   /data/alex/iota/yocto_pyro_2.3/poky/meta-poky \
   /data/alex/iota/yocto_pyro_2.3/poky/meta-yocto-bsp \
   /data/alex/iota/yocto_pyro_2.3/poky/meta-sunxi \
-  /data/alex/iota/yocto_pyro_2.3/poky/meta-iota/meta-iota-bsp \
-  /data/alex/iota/yocto_pyro_2.3/poky/meta-iota/meta-iota-distro \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-emlid-neutis/meta-neutis-bsp \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-emlid-neutis/meta-neutis-distro \
   /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-oe \
   /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-networking \
   /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-webserver \

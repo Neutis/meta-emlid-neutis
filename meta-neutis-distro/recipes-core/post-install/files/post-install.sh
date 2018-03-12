@@ -1,7 +1,7 @@
 #!/bin/bash
 
 initialize_ap_mode_cfg () {
-    ssid="Iota-id"
+    ssid="Neutis-id"
 
     sed -i -e 's/^ssid=.*/ssid='${ssid}'/g' /etc/hostapd.conf
 }

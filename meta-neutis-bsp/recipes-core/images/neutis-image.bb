@@ -1,4 +1,4 @@
-SUMMARY = "An image to run Emlid Iota"
+SUMMARY = "An image to run Emlid Neutis"
 LICENSE = "MIT"
 
 PACKAGE_CLASSES = "package_ipk"

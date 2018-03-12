@@ -28,7 +28,7 @@
 # There are also the following hardware board target machines included for 
 # demonstration purposes:
 #
-MACHINE ?= "iota"
+MACHINE ?= "neutis-n5"
 #MACHINE ?= "beaglebone"
 #MACHINE ?= "genericx86"
 #MACHINE ?= "genericx86-64"
@@ -87,7 +87,7 @@ MACHINE ??= "qemux86"
 # Ultimately when creating custom policy, people will likely end up subclassing 
 # these defaults.
 #
-DISTRO ?= "poky-iota"
+DISTRO ?= "poky-neutis"
 # As an example of a subclass there is a "bleeding" edge policy configuration
 # where many versions are set to the absolute latest code from the upstream 
 # source control systems. This is just mentioned here as an example, its not

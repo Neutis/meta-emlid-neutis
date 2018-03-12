@@ -1,5 +1,5 @@
 [Unit]
-Description=Post install service to initialize Emlid Iota
+Description=Post install service to initialize Emlid Neutis
 After=sysinit.target
 Requires=sysinit.target
 Before=multi-user.target shutdown.target

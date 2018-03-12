@@ -1,4 +1,4 @@
-SUMMARY = "An image to run Emlid Iota"
+SUMMARY = "An image to run Emlid Neutis"
 LICENSE = "MIT"
 
 PACKAGE_CLASSES = "package_ipk"
@@ -7,7 +7,8 @@ IMAGE_FEATURES += "splash"
 IMAGE_INSTALL_append += "kernel-modules"
 IMAGE_INSTALL_append += "bash"
 IMAGE_INSTALL_append += "busybox"
-# WiFi/BT
+
+# WiFi
 IMAGE_INSTALL_append += "ap6212-firmware"
 
 # I2C
