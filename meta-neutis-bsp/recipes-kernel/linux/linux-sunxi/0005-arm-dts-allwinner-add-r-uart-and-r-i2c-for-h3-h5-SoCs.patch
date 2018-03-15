@@ -1,26 +1,25 @@
-From 2cf048b4306b474a1195dcdc5c0efdeb11e1dbff Mon Sep 17 00:00:00 2001
+From 66fc4b6f0c2ca965670dc934451edfb205b3e83d Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
-Date: Sat, 25 Nov 2017 15:45:35 +0300
+Date: Thu, 15 Mar 2018 18:58:50 +0300
 Subject: [PATCH] arm: dts: allwinner: add r-uart and r-i2c for sunxi-h3-h5
 
-- fix register for i2c2 controller
 - new overlays to enable r-uart and r-i2c for each SoC
 ---
  arch/arm/boot/dts/overlay/Makefile                 |  2 ++
  arch/arm/boot/dts/overlay/sun8i-h3-r-i2c.dts       | 20 ++++++++++++
  arch/arm/boot/dts/overlay/sun8i-h3-r-uart.dts      | 22 +++++++++++++
- arch/arm/boot/dts/sunxi-h3-h5.dtsi                 | 38 +++++++++++++++++++++-
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi                 | 36 ++++++++++++++++++++++
  arch/arm64/boot/dts/allwinner/overlay/Makefile     |  2 ++
  .../boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts | 20 ++++++++++++
  .../dts/allwinner/overlay/sun50i-h5-r-uart.dts     | 22 +++++++++++++
- 7 files changed, 125 insertions(+), 1 deletion(-)
+ 7 files changed, 124 insertions(+)
  create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-r-i2c.dts
  create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-r-uart.dts
  create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-i2c.dts
  create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-r-uart.dts
 
 diff --git a/arch/arm/boot/dts/overlay/Makefile b/arch/arm/boot/dts/overlay/Makefile
-index e06a0d6..0a9b902 100644
+index 2bcbcee..ec65c8c 100644
 --- a/arch/arm/boot/dts/overlay/Makefile
 +++ b/arch/arm/boot/dts/overlay/Makefile
 @@ -54,6 +54,7 @@ dtbo-$(CONFIG_MACH_SUN8I) += \
@@ -31,7 +30,7 @@ index e06a0d6..0a9b902 100644
  	sun8i-h3-pps-gpio.dtbo \
  	sun8i-h3-pwm.dtbo \
  	sun8i-h3-spdif-out.dtbo \
-@@ -65,6 +66,7 @@ dtbo-$(CONFIG_MACH_SUN8I) += \
+@@ -63,6 +64,7 @@ dtbo-$(CONFIG_MACH_SUN8I) += \
  	sun8i-h3-uart1.dtbo \
  	sun8i-h3-uart2.dtbo \
  	sun8i-h3-uart3.dtbo \
@@ -94,10 +93,10 @@ index 0000000..6dbd319
 +	};
 +};
 diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-index 710c009..3658f50 100644
+index e0e0551..a156ceb 100644
 --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
 +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-@@ -526,6 +526,19 @@
+@@ -601,6 +601,19 @@
  			status = "disabled";
  		};
  
@@ -114,19 +113,10 @@ index 710c009..3658f50 100644
 +			status = "disabled";
 +		};
 +
- 		i2c0: i2c@01c2ac00 {
+ 		i2c0: i2c@1c2ac00 {
  			compatible = "allwinner,sun6i-a31-i2c";
  			reg = <0x01c2ac00 0x400>;
-@@ -554,7 +567,7 @@
- 
- 		i2c2: i2c@01c2b400 {
- 			compatible = "allwinner,sun6i-a31-i2c";
--			reg = <0x01c2b000 0x400>;
-+			reg = <0x01c2b400 0x400>;
- 			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_I2C2>;
- 			resets = <&ccu RST_BUS_I2C2>;
-@@ -565,6 +578,19 @@
+@@ -640,6 +653,19 @@
  			#size-cells = <0>;
  		};
  
@@ -143,10 +133,10 @@ index 710c009..3658f50 100644
 +			#size-cells = <0>;
 +		};
 +
- 		gic: interrupt-controller@01c81000 {
+ 		gic: interrupt-controller@1c81000 {
  			compatible = "arm,gic-400";
  			reg = <0x01c81000 0x1000>,
-@@ -619,6 +645,16 @@
+@@ -694,6 +720,16 @@
  			interrupt-controller;
  			#interrupt-cells = <3>;
  
@@ -160,11 +150,11 @@ index 710c009..3658f50 100644
 +				function = "s_uart";
 +			};
 +
- 			ir_pins_a: ir@0 {
+ 			ir_pins_a: ir {
  				pins = "PL11";
  				function = "s_cir_rx";
 diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
-index 511eee8..5d73c82 100644
+index 379d852..86328f9 100644
 --- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
 +++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
 @@ -15,6 +15,7 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
@@ -175,7 +165,7 @@ index 511eee8..5d73c82 100644
  	sun50i-h5-pps-gpio.dtbo \
  	sun50i-h5-pwm.dtbo \
  	sun50i-h5-spdif-out.dtbo \
-@@ -26,6 +27,7 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
+@@ -24,6 +25,7 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
  	sun50i-h5-uart1.dtbo \
  	sun50i-h5-uart2.dtbo \
  	sun50i-h5-uart3.dtbo \

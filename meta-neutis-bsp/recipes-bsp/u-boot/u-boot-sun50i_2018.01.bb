@@ -29,7 +29,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
            file://boot.cmd \
            file://Env.txt \
            file://bl31.bin \
-           file://0001-arm-dts-add-new-emlid-board.patch \
+           file://0001-arm-sunxi-new-board-Emlid-Neutis-N5.patch \
            "
 
 SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"

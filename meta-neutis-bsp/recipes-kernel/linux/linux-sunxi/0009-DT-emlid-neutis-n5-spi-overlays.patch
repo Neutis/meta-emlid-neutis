@@ -1,0 +1,349 @@
+From a0218091de350554e43aeb497db891fca9ddce2e Mon Sep 17 00:00:00 2001
+From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
+Date: Thu, 15 Mar 2018 19:04:32 +0300
+Subject: [PATCH] dts: allwinner: support Emlid Neutis N5 - add new board -
+ Emlid Neutis N5 - DT layers to enable spi[0-1]
+
+---
+ arch/arm/boot/dts/overlay/Makefile                 |   2 +
+ .../boot/dts/overlay/sun8i-h3-spi0-status-okay.dts |  13 ++
+ .../boot/dts/overlay/sun8i-h3-spi1-status-okay.dts |  13 ++
+ arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+ arch/arm64/boot/dts/allwinner/overlay/Makefile     |   2 +
+ .../overlay/sun50i-h5-spi0-status-okay.dts         |  13 ++
+ .../overlay/sun50i-h5-spi1-status-okay.dts         |  13 ++
+ .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 204 +++++++++++++++++++++
+ 8 files changed, 261 insertions(+)
+ create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-spi0-status-okay.dts
+ create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-spi1-status-okay.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi0-status-okay.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi1-status-okay.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+
+diff --git a/arch/arm/boot/dts/overlay/Makefile b/arch/arm/boot/dts/overlay/Makefile
+index ec65c8c..0a9b902 100644
+--- a/arch/arm/boot/dts/overlay/Makefile
++++ b/arch/arm/boot/dts/overlay/Makefile
+@@ -61,6 +61,8 @@ dtbo-$(CONFIG_MACH_SUN8I) += \
+ 	sun8i-h3-spi-add-cs1.dtbo \
+ 	sun8i-h3-spi-jedec-nor.dtbo \
+ 	sun8i-h3-spi-spidev.dtbo \
++	sun8i-h3-spi0-status-okay.dtbo \
++	sun8i-h3-spi1-status-okay.dtbo \
+ 	sun8i-h3-uart1.dtbo \
+ 	sun8i-h3-uart2.dtbo \
+ 	sun8i-h3-uart3.dtbo \
+diff --git a/arch/arm/boot/dts/overlay/sun8i-h3-spi0-status-okay.dts b/arch/arm/boot/dts/overlay/sun8i-h3-spi0-status-okay.dts
+new file mode 100644
+index 0000000..177381a
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun8i-h3-spi0-status-okay.dts
+@@ -0,0 +1,13 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++    compatible = "allwinner,sun8i-h3";
++
++    fragment@0 {
++        target = <&spi0>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++};
+diff --git a/arch/arm/boot/dts/overlay/sun8i-h3-spi1-status-okay.dts b/arch/arm/boot/dts/overlay/sun8i-h3-spi1-status-okay.dts
+new file mode 100644
+index 0000000..1e7d639
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun8i-h3-spi1-status-okay.dts
+@@ -0,0 +1,13 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++    compatible = "allwinner,sun8i-h3";
++
++    fragment@0 {
++        target = <&spi1>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index c417822..017de0b 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -10,6 +10,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-prime.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo-plus2.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-emlid-neutis-n5.dtb
+ 
+ subdir-y := overlay
+ dts-dirs += overlay
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+index 86328f9..5d73c82 100644
+--- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
++++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+@@ -22,6 +22,8 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-h5-spi-add-cs1.dtbo \
+ 	sun50i-h5-spi-jedec-nor.dtbo \
+ 	sun50i-h5-spi-spidev.dtbo \
++	sun50i-h5-spi0-status-okay.dtbo \
++	sun50i-h5-spi1-status-okay.dtbo \
+ 	sun50i-h5-uart1.dtbo \
+ 	sun50i-h5-uart2.dtbo \
+ 	sun50i-h5-uart3.dtbo \
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi0-status-okay.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi0-status-okay.dts
+new file mode 100644
+index 0000000..df88928
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi0-status-okay.dts
+@@ -0,0 +1,13 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++    compatible = "allwinner,sun50i-h5";
++
++    fragment@0 {
++        target = <&spi0>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi1-status-okay.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi1-status-okay.dts
+new file mode 100644
+index 0000000..ba93b88
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi1-status-okay.dts
+@@ -0,0 +1,13 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++    compatible = "allwinner,sun50i-h5";
++
++    fragment@0 {
++        target = <&spi1>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+new file mode 100644
+index 0000000..b505e2d
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+@@ -0,0 +1,204 @@
++/*
++ * Copyright (C) 2018 Aleksandr Aleksandrov <aleksandr.aleksandrov@emlid.com>
++ *
++ * This file is dual-licensed: you can use it either under the terms
++ * of the GPL or the X11 license, at your option. Note that this dual
++ * licensing only applies to this file, and not this project as a
++ * whole.
++ *
++ *  a) This file is free software; you can redistribute it and/or
++ *     modify it under the terms of the GNU General Public License as
++ *     published by the Free Software Foundation; either version 2 of the
++ *     License, or (at your option) any later version.
++ *
++ *     This file is distributed in the hope that it will be useful,
++ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *     GNU General Public License for more details.
++ *
++ * Or, alternatively,
++ *
++ *  b) Permission is hereby granted, free of charge, to any person
++ *     obtaining a copy of this software and associated documentation
++ *     files (the "Software"), to deal in the Software without
++ *     restriction, including without limitation the rights to use,
++ *     copy, modify, merge, publish, distribute, sublicense, and/or
++ *     sell copies of the Software, and to permit persons to whom the
++ *     Software is furnished to do so, subject to the following
++ *     conditions:
++ *
++ *     The above copyright notice and this permission notice shall be
++ *     included in all copies or substantial portions of the Software.
++ *
++ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
++ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
++ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ *     OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++/dts-v1/;
++#include "sun50i-h5.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++
++/ {
++	model = "Emlid Neutis N5";
++	compatible = "emlid,neutis-n5", "allwinner,sun50i-h5";
++
++	reg_vcc3v3: vcc3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++	};
++
++	aliases {
++		serial0 = &uart0;
++    };
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	reg_usb0_vbus: usb0-vbus {
++		compatible = "regulator-fixed";
++		regulator-name = "usb0-vbus";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		gpio = <&r_pio 0 9 GPIO_ACTIVE_HIGH>;   /* PL9 */
++		status = "okay";
++	};
++
++    wifi_pwrseq: wifi_pwrseq {
++        compatible = "mmc-pwrseq-simple";
++        reset-gpios = <&pio 2 7 GPIO_ACTIVE_LOW>;   /* PC7 */
++        post-power-on-delay-ms = <200>;
++    };
++
++    bcm43xx {
++        compatible = "rfkill-gpio";
++        pinctrl-names = "default";
++        pinctrl-0 = <&bt_rst_n_pin>;
++        reset-gpios = <&pio 2 4 GPIO_ACTIVE_HIGH>;     /* PC4 */
++        name = "bcm43xx";
++        type = "bluetooth";
++    };
++};
++
++&r_pio {
++    wifi_wake: wifi_wake@0 {
++        pins = "PL5";
++        function = "irq";
++        bias-pull-up;
++    };
++};
++
++&mmc0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc0_pins_a>, <&mmc0_cd_pin>;
++	vmmc-supply = <&reg_vcc3v3>;
++	bus-width = <4>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
++	status = "okay";
++};
++
++&mmc1 {
++    pinctrl-names = "default";
++    pinctrl-0 = <&mmc1_pins_a>;
++    vmmc-supply = <&reg_vcc3v3>;
++    vqmmc-supply = <&reg_vcc3v3>;
++    mmc-pwrseq = <&wifi_pwrseq>;
++    bus-width = <4>;
++    non-removable;
++    status = "okay";
++
++    brcmf: bcrmf@1 {
++        reg = <1>;
++        compatible = "brcm,bcm4329-fmac";
++        interrupt-parent = <&r_pio>;
++        interrupts = <0 5 IRQ_TYPE_LEVEL_LOW>;      /* PL5 */
++        interrupt-names = "host-wake";
++        pinctrl-names = "default";
++        pinctrl-0 = <&wifi_wake>;
++    };
++};
++
++&mmc2 {
++    pinctrl-names = "default";
++    pinctrl-0 = <&mmc2_8bit_pins>;
++    vmmc-supply = <&reg_vcc3v3>;
++    bus-width = <8>;
++    non-removable;
++    cap-mmc-hw-reset;
++    status = "okay";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pins_a>;
++	status = "okay";
++};
++
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usbphy {
++	usb0_id_det-gpios = <&r_pio 0 8 GPIO_ACTIVE_HIGH>;   /* PL8 */
++	usb0_vbus-supply = <&reg_usb0_vbus>;
++	status = "okay";
++};
++
++&pio {
++    spi0_cs_pins: spi0_cs_pins {
++        pins = "PC3";
++        function = "gpio_out";
++    };
++
++    spi1_cs_pins: spi1_cs_pins {
++        pins = "PA13";
++        function = "gpio_out";
++    };
++
++    bt_rst_n_pin: bt_rst_n_pin@0 {
++        pins = "PC4";
++        function = "gpio_out";
++    };
++};
++
++&spi0 {
++    #address-cells = <1>;
++    #size-cells = <0>;
++
++    status = "disabled";
++    pinctrl-names = "default";
++    pinctrl-0 = <&spi0_pins &spi0_cs_pins>;
++    cs-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>;    /* PC3 */
++
++    spidev0: spi@0 {
++        compatible = "spidev";
++        reg = <0>;
++        spi-max-frequency = <10000000>;
++    };
++};
++
++&spi1 {
++    #address-cells = <1>;
++    #size-cells = <0>;
++
++    status = "disabled";
++    pinctrl-names = "default";
++    pinctrl-0 = <&spi1_pins &spi1_cs_pins>;
++    cs-gpios = <&pio 0 13 GPIO_ACTIVE_HIGH>;    /* PA13 */
++
++    spidev1: spi@1 {
++        compatible = "spidev";
++        reg = <0>;
++        spi-max-frequency = <10000000>;
++    };
++};
+-- 
+2.7.4
+
