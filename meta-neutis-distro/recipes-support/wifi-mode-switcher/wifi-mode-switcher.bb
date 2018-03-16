@@ -7,6 +7,8 @@ SRC_URI += "\
     "
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/:"
 
+RDEPENDS_${PN} += "bash"
+
 inherit base
 
 S = "${WORKDIR}"
