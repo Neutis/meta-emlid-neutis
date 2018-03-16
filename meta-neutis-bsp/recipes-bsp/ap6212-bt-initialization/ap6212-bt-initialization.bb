@@ -12,7 +12,7 @@ SYSTEMD_SERVICE_${PN} = "ap6212-bt-init.service"
 SYSTEMD_AUTO_ENABLE = "enable"
 SYSTEMD_AUTO_RESTART = "false"
 
-RDEPENDS_${PN} = "systemd"
+RDEPENDS_${PN} = "systemd bash"
 DEPENDS = "systemd"
 
 inherit systemd
