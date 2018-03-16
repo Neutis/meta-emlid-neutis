@@ -59,4 +59,5 @@ do_compile_prepend() {
 
 do_compile_append() {
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
+    cat ${SPL_BINARY} ${UBOOT_BINARY} > ${DEPLOY_DIR_IMAGE}/u-boot-sunxi-with-spl.bin
 }
