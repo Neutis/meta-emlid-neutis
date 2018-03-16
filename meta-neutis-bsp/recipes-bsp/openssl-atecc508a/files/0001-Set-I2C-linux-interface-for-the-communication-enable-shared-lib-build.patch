@@ -1,0 +1,65 @@
+From 0d47fcd29c4691bbc0ef60257d625bc36ae066d6 Mon Sep 17 00:00:00 2001
+From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
+Date: Fri, 16 Mar 2018 17:57:45 +0300
+Subject: [PATCH] Set I2C linux interface for the communication - i2c - enable
+ shared lib build - remove -I/usr/include for cross-compilation
+
+---
+ cryptoauthlib/Makefile                    | 8 +++++---
+ cryptoauthlib/lib/openssl/eccx08_engine.h | 4 ++--
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/cryptoauthlib/Makefile b/cryptoauthlib/Makefile
+index 399db53..c145421 100644
+--- a/cryptoauthlib/Makefile
++++ b/cryptoauthlib/Makefile
+@@ -1,9 +1,11 @@
+ .PHONY: all libcryptoauth libateccssl libpkcs11 dist install clean
+ 
+-OPTIONS := ATCAPRINTF ATCA_HAL_KIT_CDC ENGINE_DYNAMIC_SUPPORT USE_ECCX08 ECC_DEBUG
++OPTIONS := ATCAPRINTF ATCA_HAL_I2C ENGINE_DYNAMIC_SUPPORT USE_ECCX08 ECC_DEBUG
+ 
+ SYSTEM_INCLUDES := /usr/include
+ 
++TARGET_HAL = I2C
++
+ # Check platform
+ ifeq ($(OS),Windows_NT)
+ # Special check for simulated windows environments
+@@ -38,7 +40,7 @@ endif
+ endif
+ 
+ ifeq ($(uname_S),Linux)
+-CFLAGS += -g -O1 -m64 -Wall -fPIC $(addprefix -D,$(OPTIONS))
++CFLAGS += -g -O1 -Wall -fPIC $(addprefix -D,$(OPTIONS))
+ TARGET_ARCH := Linux
+ endif
+ #    ifeq ($(uname_S),Darwin)
+@@ -108,7 +110,7 @@ TEST_OBJECTS := $(addprefix $(OUTDIR)/,$(notdir $(TEST_SOURCES:.c=.o)))
+ 
+ LIBCRYPTOAUTH_OBJECTS := $(addprefix $(OUTDIR)/,$(notdir $(LIBCRYPTOAUTH_OBJECTS:.c=.o)))
+ 
+-CFLAGS += $(addprefix -I, $(INCLUDE) $(TEST_INCLUDE) $(SYSTEM_INCLUDES))
++CFLAGS += $(addprefix -I, $(INCLUDE) $(TEST_INCLUDE))
+ 
+ # Regardless of platform set the vpath correctly
+ vpath %.c $(call BACK2SLASH,$(sort $(dir $(SOURCES) $(TEST_SOURCES))))
+diff --git a/cryptoauthlib/lib/openssl/eccx08_engine.h b/cryptoauthlib/lib/openssl/eccx08_engine.h
+index 0df331f..b2ecb00 100644
+--- a/cryptoauthlib/lib/openssl/eccx08_engine.h
++++ b/cryptoauthlib/lib/openssl/eccx08_engine.h
+@@ -101,9 +101,9 @@ security implications */
+ 
+ /** \brief Configuration is statically compiled into the library rather than
+ loaded from a file or an application */
+-#ifndef ATCA_OPENSSL_ENGINE_STATIC_CONFIG
++/* #ifndef ATCA_OPENSSL_ENGINE_STATIC_CONFIG
+ #define ATCA_OPENSSL_ENGINE_STATIC_CONFIG       (1)
+-#endif
++#endif */
+ 
+ /* Global Macros/Definitions */
+ 
+-- 
+2.7.4
+

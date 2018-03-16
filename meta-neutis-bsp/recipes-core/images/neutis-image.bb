@@ -60,6 +60,7 @@ IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc
 
 # BSP
 IMAGE_INSTALL_append += "reflash-utility"
+IMAGE_INSTALL_append += "openssl-atecc508a openssl-atecc508a-dev"
 
 inherit core-image
 
