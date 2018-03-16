@@ -66,5 +66,5 @@ inherit core-image
 ROOTFS_POSTPROCESS_COMMAND += "clean_boot_dir ; "
 
 clean_boot_dir () {
-    rm -r ${IMAGE_ROOTFS}/boot/*
+    rm -r ${IMAGE_ROOTFS}/boot/* || true
 }
