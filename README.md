@@ -1,18 +1,18 @@
-meta-iota
+meta-emid-neutis
 ==============
-Emlid Iota board based on allwinner H5 SoC.
+Emlid Neutis N5 board based on allwinner H5 SoC.
 
-This layer depends on the additional layer:
+This layer depends on the additional layers:
 - meta-sunxi from `https://github.com/AD-Aleksandrov`
 - meta-openembedded
 
-Tested with iota-image, core-image-base.
+Tested with neutis-image, core-image-base.
 
-Copy `bblayers.conf.sample` and `bblayers.conf.sample` from `meta-iota-distro/conf` to build directory.
+Copy `bblayers.conf.sample` and `bblayers.conf.sample` from `meta-neutis-distro/conf` to build directory.
 
-Execute `bitbake iota-image` to build image, storage device target - eMMc(/dev/mmcblk2).
+Execute `bitbake neutis-image` to build image, storage device target - eMMc(/dev/mmcblk2).
 
-You will find your image file here: `build/tmp/deploy/images/iota/iota-image-iota-%timedate.rootfs.sunxi-sdimg`.
+You will find your image file here: `build/tmp/deploy/images/neutis/neutis-image-neutis-%timedate.rootfs.sunxi-sdimg`.
 
 how to build - simple guide
 ==============
@@ -28,18 +28,18 @@ cd poky
 ```
 git clone git@github.com:AD-Aleksandrov/meta-sunxi.git -b master
 git clone git@github.com:openembedded/meta-openembedded.git -b pyro
-git clone git@github.com:emlid/meta-iota.git -b master
+git clone git@github.com:emlid/meta-emlid-neutis.git -b master
 ```
 
 3. Update environment and copy the rigth conf files.
 ```
 source ./oe-init-build-env ../build
-cp $IMAGE_PATH/meta-iota/meta-iota-distro/conf/local.conf.sample conf/local.conf
+cp $IMAGE_PATH/meta-emlid-neutis/meta-neutis-distro/conf/local.conf.sample conf/local.conf
 ```
-Compare `conf/bblayers.conf` and `$IMAGE_PATH/meta-iota/meta-iota-distro/conf/bblayers.conf.sample`.
+Compare `conf/bblayers.conf` and `$IMAGE_PATH/meta-emlid-neutis/meta-neutis-distro/conf/bblayers.conf.sample`.
 Add all layers to `conf/bblayers.conf` that are included in sample file.
 
 4. Build the image.
 ```
-bitbake iota-image
+bitbake neutis-image
 ```

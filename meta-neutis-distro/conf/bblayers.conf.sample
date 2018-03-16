@@ -1,0 +1,20 @@
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-poky \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-yocto-bsp \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-sunxi \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-emlid-neutis/meta-neutis-bsp \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-emlid-neutis/meta-neutis-distro \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-oe \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-networking \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-webserver \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-python \
+  /data/alex/iota/yocto_pyro_2.3/poky/meta-openembedded/meta-systemd \
+  "
