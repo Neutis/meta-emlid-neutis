@@ -21,7 +21,7 @@ KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 PV = "4.15+git${SRCPV}"
 SRCREV_pn-${PN} = "df57458873da1a2a52e31c96cff43942c3557037"
 
-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-4.15.y \
+SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-4.15.y \
         file://defconfig \
         file://0001-compilation-DT-add-overlay-compilation-support.patch \
         file://0002-arm64-dts-allwinner-add-overlays-for-a64-and-h5-SoCs.patch \
@@ -32,6 +32,21 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
         file://0007-net-rfkill-gpio-add-new-of_device_id-struct-compatib.patch \
         file://0008-drivers-spi-spidev-new-compatible-spidev.patch \
         file://0009-DT-emlid-neutis-n5-spi-overlays.patch \
+        file://megous-ths-4.15/0001-arm64-config-Fix-PINCTRL-not-being-available-in-Kcon.patch \
+        file://megous-ths-4.15/0002-clk-sunxi-ng-Set-maximum-M-1-for-H3-pll-cpux-clock.patch \
+        file://megous-ths-4.15/0003-clk-sunxi-ng-Allow-to-limit-the-use-of-NKMP-clock-s-.patch \
+        file://megous-ths-4.15/0004-clk-sunxi-ng-Limit-pll_cpux-P-factor-for-rates-288MH.patch \
+        file://megous-ths-4.15/0005-thermal-sun8i_ths-Add-support-for-the-thermal-sensor.patch \
+        file://megous-ths-4.15/0006-dt-bindings-document-sun8i_ths-H3-thermal-sensor-dri.patch \
+        file://megous-ths-4.15/0007-cpufreq-dt-platdev-Add-allwinner-sun50i-h5-compatibl.patch \
+        file://megous-ths-4.15/0008-thermal-sun8i-ths-Allow-to-enable-thermal-sensor-dri.patch \
+        file://megous-ths-4.15/0009-ARM-dts-sun8i-Add-cpu0-label-to-sun8i-h3.dtsi.patch \
+        file://megous-ths-4.15/0010-ARM-dts-sun8i-h3-Add-clock-frequency.patch \
+        file://megous-ths-4.15/0011-arm64-dts-sun50i-h5-Add-cpu0-label.patch \
+        file://megous-ths-4.15/0012-ARM-dts-sun8i-Add-thermal-sensor-node-to-H3-dts.patch \
+        file://megous-ths-4.15/0013-arm64-dts-sun50i-h5-Configure-cpufreq.patch \
+        file://0010-arm64-dts-allwinner-add-operating-points-cpu_opp_tab-Emlid-Neutis-N5.patch \
         "
+
 
 S = "${WORKDIR}/git"

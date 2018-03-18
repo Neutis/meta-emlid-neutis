@@ -1,0 +1,103 @@
+From d4b713d05497eb7be96eefbedf8e0b7d24c7a0a9 Mon Sep 17 00:00:00 2001
+From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
+Date: Sun, 18 Mar 2018 17:42:43 +0300
+Subject: [PATCH] arm64: dts: allwinner: add operating-points & cpu_opp_table
+ for Emlid Neutis N5
+
+---
+ .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 70 ++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+index b505e2d..454e6a9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+@@ -44,6 +44,7 @@
+ #include "sun50i-h5.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/thermal/thermal.h>
+ 
+ / {
+ 	model = "Emlid Neutis N5";
+@@ -87,8 +88,77 @@
+         name = "bcm43xx";
+         type = "bluetooth";
+     };
++
++    reg_cpu_fallback: reg_cpu_fallback {
++        compatible = "regulator-fixed";
++        regulator-name = "vdd-cpux-dummy";
++        regulator-min-microvolt = <1100000>;
++        regulator-max-microvolt = <1100000>;
++    };
++};
++
++&cpu0 {
++    operating-points = <
++        /* kHz    uV */
++        816000  1100000
++        624000  1100000
++        480000  1100000
++        312000  1100000
++        240000  1100000
++        120000  1100000
++        >;
++    #cooling-cells = <2>;
++    cooling-min-level = <0>;
++    cooling-max-level = <5>;
++    cpu-supply = <&reg_cpu_fallback>;
+ };
+ 
++&cpu_thermal {
++    trips {
++        cpu_warm: cpu_warm {
++            temperature = <65000>;
++            hysteresis = <2000>;
++            type = "passive";
++        };
++
++        cpu_hot: cpu_hot {
++            temperature = <75000>;
++            hysteresis = <2000>;
++            type = "passive";
++        };
++
++        cpu_very_hot: cpu_very_hot {
++            temperature = <90000>;
++            hysteresis = <2000>;
++            type = "passive";
++        };
++
++        cpu_crit: cpu_crit {
++            temperature = <105000>;
++            hysteresis = <2000>;
++            type = "critical";
++        };
++    };
++
++    cooling-maps {
++        cpu_warm_limit_cpu {
++            trip = <&cpu_warm>;
++            cooling-device = <&cpu0 THERMAL_NO_LIMIT 2>;
++        };
++
++        cpu_hot_limit_cpu {
++            trip = <&cpu_hot>;
++            cooling-device = <&cpu0 3 THERMAL_NO_LIMIT>;
++        };
++
++        cpu_very_hot_limit_cpu {
++            trip = <&cpu_very_hot>;
++            cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++        };
++    };
++};
++
++
+ &r_pio {
+     wifi_wake: wifi_wake@0 {
+         pins = "PL5";
+-- 
+2.7.4
+
