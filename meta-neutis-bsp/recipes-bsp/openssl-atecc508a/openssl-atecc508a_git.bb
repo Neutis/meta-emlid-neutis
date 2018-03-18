@@ -30,7 +30,7 @@ do_compile() {
 do_install() {
     install -d ${D}${libdir}
     install -m 0755 "${LIB_SRC_PATH}/.build/${SHARED_LIB}" ${D}${libdir}/${SHARED_LIB}.${VER}
-    ln -sf ${libdir}/${SHARED_LIB}.${VER} ${D}${libdir}/${SHARED_LIB}
+    ln -sf ${SHARED_LIB}.${VER} ${D}${libdir}/${SHARED_LIB}
 
     cd "${LIB_SRC_PATH}/lib"
 
