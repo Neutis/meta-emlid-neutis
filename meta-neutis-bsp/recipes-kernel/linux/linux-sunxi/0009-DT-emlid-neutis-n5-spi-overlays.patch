@@ -1,4 +1,4 @@
-From a0218091de350554e43aeb497db891fca9ddce2e Mon Sep 17 00:00:00 2001
+From 7ee3fd80d8b070032ae31fa9d38b522463bc2a0b Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Thu, 15 Mar 2018 19:04:32 +0300
 Subject: [PATCH] dts: allwinner: support Emlid Neutis N5 - add new board -
@@ -12,8 +12,8 @@ Subject: [PATCH] dts: allwinner: support Emlid Neutis N5 - add new board -
  arch/arm64/boot/dts/allwinner/overlay/Makefile     |   2 +
  .../overlay/sun50i-h5-spi0-status-okay.dts         |  13 ++
  .../overlay/sun50i-h5-spi1-status-okay.dts         |  13 ++
- .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 204 +++++++++++++++++++++
- 8 files changed, 261 insertions(+)
+ .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 205 +++++++++++++++++++++
+ 8 files changed, 262 insertions(+)
  create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-spi0-status-okay.dts
  create mode 100644 arch/arm/boot/dts/overlay/sun8i-h3-spi1-status-okay.dts
  create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-spi0-status-okay.dts
@@ -136,10 +136,10 @@ index 0000000..ba93b88
 +};
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
 new file mode 100644
-index 0000000..b505e2d
+index 0000000..98dd3f4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
-@@ -0,0 +1,204 @@
+@@ -0,0 +1,205 @@
 +/*
 + * Copyright (C) 2018 Aleksandr Aleksandrov <aleksandr.aleksandrov@emlid.com>
 + *
@@ -211,6 +211,7 @@ index 0000000..b505e2d
 +		regulator-name = "usb0-vbus";
 +		regulator-min-microvolt = <5000000>;
 +		regulator-max-microvolt = <5000000>;
++		enable-active-high;
 +		gpio = <&r_pio 0 9 GPIO_ACTIVE_HIGH>;   /* PL9 */
 +		status = "okay";
 +	};
