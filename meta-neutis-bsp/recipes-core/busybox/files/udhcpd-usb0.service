@@ -1,6 +1,6 @@
 [Unit]
 Description=UDHCPD service for usb0
-Requires=systemd-networkd.service
+Requires=sys-subsystem-net-devices-usb0.device systemd-networkd.service
 After=sys-subsystem-net-devices-usb0.device systemd-networkd.service
 
 [Service]

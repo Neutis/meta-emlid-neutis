@@ -1,6 +1,6 @@
 [Unit]
 Description=UDHCPD service for wlan0
-Requires=hostapd.service
+Requires=sys-subsystem-net-devices-wlan0.device hostapd.service
 After=sys-subsystem-net-devices-wlan0.device hostapd.service
 
 [Service]
