@@ -46,6 +46,7 @@ SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.gi
         file://megous-ths-4.15/0012-ARM-dts-sun8i-Add-thermal-sensor-node-to-H3-dts.patch \
         file://megous-ths-4.15/0013-arm64-dts-sun50i-h5-Configure-cpufreq.patch \
         file://0010-arm64-dts-allwinner-add-operating-points-cpu_opp_tab-Emlid-Neutis-N5.patch \
+        file://0011-arm64-dts-allwinner-add-sun50i-h5-ethernet-100-overlay.patch \
         "
 
 
