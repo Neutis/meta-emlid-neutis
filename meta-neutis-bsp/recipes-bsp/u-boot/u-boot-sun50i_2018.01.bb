@@ -4,6 +4,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/u-boot-sun50i/:"
 require recipes-bsp/u-boot/u-boot.inc
 inherit pythonnative
 
+PROVIDES += "u-boot"
+RPROVIDES_${PN} += "u-boot"
+
 DEPENDS += "dtc-native swig-native python-dev python-native"
 
 LICENSE = "GPLv2"
