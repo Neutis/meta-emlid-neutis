@@ -33,6 +33,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
            file://Env.txt \
            file://bl31.bin \
            file://0001-arm-sunxi-new-board-Emlid-Neutis-N5.patch \
+           file://0002-arm-sunxi-enable-BOOTZ-command.patch \
            "
 
 SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
