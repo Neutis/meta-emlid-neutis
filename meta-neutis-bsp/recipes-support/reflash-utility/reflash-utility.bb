@@ -3,7 +3,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 SRC_URI += "\
-    file://goto-fel.cpp \
+    file://goto-fel.c \
     file://reflash-utility.service \
     "
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/:"
@@ -20,7 +20,7 @@ inherit systemd
 S = "${WORKDIR}"
 
 do_compile() {
-    ${CXX} goto-fel.cpp ${LDFLAGS} -o goto-fel
+    ${CXX} goto-fel.c ${LDFLAGS} -o goto-fel
 }
 
 do_install() {
