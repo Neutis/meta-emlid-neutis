@@ -3,3 +3,7 @@
 # The loopback interface
 auto lo
 iface lo inet loopback
+
+# Manage usb0 manually with systemd-networkd
+auto usb0
+iface usb0 inet manual
