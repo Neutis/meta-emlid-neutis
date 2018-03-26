@@ -117,7 +117,7 @@ int waitForCmd(int fd)
     start_time = gettime_ms();
 
     while (gettime_ms() - start_time <= DELAY_MS) {
-        if (read(fd, buff, sizeof(buff)) <= 0) {
+        if (read(fd, buff, sizeof(buff) - 1) <= 0) {
             usleep(10 * 1000);      /* 10 ms */
         } else {
             if (strlen(buff) + strlen(output) < sizeof(output)) {
