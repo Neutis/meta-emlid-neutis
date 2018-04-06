@@ -28,34 +28,46 @@ SOFTWARE. */
 
 #define FEL_MODE            1
 #define NORMAL_MODE         0
+#define REBOOT_FLAG         "-r"
 #define DELAY_MS            3000    /* ms */
 #define SERIAL_PORT         "/dev/ttyGS0"
 #define BLOCK_DEVICE        "/dev/mmcblk2"
 #define MAGIC_WORD          ",emeveryis'sonefrlidomhellome"
 
 int configureSerialPort(void);
-int waitForCmd(int fd);
+int waitForCmd(int fd, int inf_flag);
 long long gettime_ms(void);
 void enterFELMode(void);
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    int fd, mode;
+    int fd, mode, inf_flag;
 
     fd = configureSerialPort();
 
     if (fd < 0)
         return -1;
 
-    mode = waitForCmd(fd);
+    /* inf_flag - true in FEL tiny image */
+    inf_flag = (argc > 1 && strcmp(argv[1], REBOOT_FLAG) == 0) ? 1 : 0;
+
+    mode = waitForCmd(fd, inf_flag);
     close(fd);
 
     switch(mode) {
         case NORMAL_MODE:
             break;
         case FEL_MODE:
-            fprintf(stdout, "Got the magic word, go to FEL mode!\n");
-            enterFELMode(); break;
+            fprintf(stdout, "Got the magic word!\n");
+
+            /* Use REBOOT_FLAG in FEL tiny image to reboot device after flashing. */
+            if (inf_flag) {
+                fprintf(stdout, "Rebooting...\n");
+                reboot(RB_AUTOBOOT);
+            } else {
+                fprintf(stdout, "Go to FEL mode.\n");
+                enterFELMode(); break;
+            }
         default:
             break;
     }
@@ -108,7 +120,7 @@ fail:
     return -1;
 }
 
-int waitForCmd(int fd)
+int waitForCmd(int fd, int inf_flag)
 {
     char output[4096] = "";
     char buff[128];
@@ -116,7 +128,8 @@ int waitForCmd(int fd)
 
     start_time = gettime_ms();
 
-    while (gettime_ms() - start_time <= DELAY_MS) {
+    /* inf_flag - true => wait for reboot command forever */
+    while (inf_flag || gettime_ms() - start_time <= DELAY_MS) {
         if (read(fd, buff, sizeof(buff) - 1) <= 0) {
             usleep(10 * 1000);      /* 10 ms */
         } else {
@@ -169,6 +182,5 @@ void enterFELMode(void)
     pclose(pipe);
     sync();
 
-    /* Force reboot */
     reboot(RB_AUTOBOOT);
 }
