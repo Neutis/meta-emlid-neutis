@@ -5,15 +5,13 @@
 # UART1
 
 PORT=ttyS1
-MAC_ADDRESS=11:22:33:44:55:66
 FIRMWARE=/etc/firmware/ap6212/4343A1.hcd
 BAUDRATE=115200
 
 rfkill block bluetooth
 rfkill unblock bluetooth
-sleep 0.1
 
-brcm_patchram_plus --patchram $FIRMWARE --bd_addr $MAC_ADDRESS --no2bytes --use_baudrate_for_download --baudrate $BAUDRATE --tosleep 1000 /dev/$PORT
+brcm_patchram_plus --patchram $FIRMWARE --no2bytes --use_baudrate_for_download --baudrate $BAUDRATE --tosleep 1000 /dev/$PORT
 
 hciattach /dev/$PORT any
 hciconfig hci0 up

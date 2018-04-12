@@ -4,8 +4,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.broadcom;md5=18b6b752a010900b9c111f528f8c8ffd
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/:"
 
 SRC_URI += "\
+    file://brcm-patchram-plus/brcm_patchram_plus.c \
     file://LICENSE.broadcom \
-    file://brcm_patchram_plus-armv8-repo \
     file://fw_bcm43438a0_apsta.bin \
     file://fw_bcm43438a0.bin \
     file://fw_bcm43438a0_p2p.bin \
@@ -22,9 +22,15 @@ SRC_URI += "\
     file://brcmfmac43430a0-sdio.txt \
     "
 
-do_install_append() {
+S = "${WORKDIR}"
+
+do_compile () {
+    ${CC} ${CFLAGS} ${LDFLAGS} brcm-patchram-plus/brcm_patchram_plus.c -o brcm_patchram_plus
+}
+
+do_install () {
     install -d ${D}${bindir}
-    install -m 755 ${WORKDIR}/brcm_patchram_plus-armv8-repo ${D}${bindir}/brcm_patchram_plus
+    install -m 0755 ${B}/brcm_patchram_plus ${D}${bindir}/brcm_patchram_plus
     
     install -d ${D}${base_libdir}/firmware/ap6212
     install -c -m 0644 ${WORKDIR}/fw_bcm43438a0_apsta.bin ${D}${base_libdir}/firmware/ap6212
@@ -50,10 +56,6 @@ do_install_append() {
     ln -sf ${base_libdir}/firmware/ap6212/bcm43438a0.hcd ${D}${sysconfdir}/firmware/ap6212/4343A0.hcd
     ln -sf ${base_libdir}/firmware/ap6212/bcm43438a1.hcd ${D}${sysconfdir}/firmware/ap6212/4343A1.hcd
 }
-
-inherit base
-
-S = "${WORKDIR}"
 
 FILES_${PN} += "\
     ${bindir}/brcm_patchram_plus \
