@@ -3,7 +3,7 @@ meta-emid-neutis
 Emlid Neutis N5 board based on allwinner H5 SoC.
 
 This layer depends on the additional layers:
-- meta-sunxi from `https://github.com/AD-Aleksandrov`
+- meta-sunxi
 - meta-openembedded
 
 Tested with neutis-image, core-image-base.
@@ -26,7 +26,7 @@ cd poky
 
 2. Clone all necessary layers.
 ```
-git clone git@github.com:AD-Aleksandrov/meta-sunxi.git -b master
+git clone git@github.com:emlid/meta-sunxi.git -b emlid-dev
 git clone git@github.com:openembedded/meta-openembedded.git -b pyro
 git clone git@github.com:emlid/meta-emlid-neutis.git -b master
 ```

@@ -33,5 +33,5 @@ if test "${overlay_error}" = "true"; then
     load mmc ${device} ${fdt_addr_r} ${fdtfile}
 fi
 
-load mmc ${device} ${kernel_addr_r} uImage
+load mmc ${device} ${kernel_addr_r} Image
 booti ${kernel_addr_r} - ${fdt_addr_r}

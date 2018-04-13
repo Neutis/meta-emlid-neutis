@@ -20,6 +20,7 @@ DEFAULT_PREFERENCE = "-1"
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"	
 PV = "4.15+git${SRCPV}"
 SRCREV_pn-${PN} = "df57458873da1a2a52e31c96cff43942c3557037"
+KBRANCH = "linux-4.15.y"
 
 SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-4.15.y \
         file://defconfig \

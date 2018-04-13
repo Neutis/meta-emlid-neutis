@@ -8,6 +8,7 @@ PROVIDES += "u-boot"
 RPROVIDES_${PN} += "u-boot"
 
 DEPENDS += "dtc-native swig-native python-dev python-native"
+DEPENDS_append_sun50i += "atf-sunxi"
 
 LICENSE = "GPLv2"
 
@@ -31,7 +32,6 @@ DEFAULT_PREFERENCE_sun50i="1"
 SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
            file://boot.cmd \
            file://Env.txt \
-           file://bl31.bin \
            file://0001-arm-sunxi-new-board-Emlid-Neutis-N5.patch \
            file://0002-arm-sunxi-enable-BOOTZ-command.patch \
            "
@@ -39,7 +39,6 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
 SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
 
 PV = "v2018.01+git${SRCPV}"
-
 PE = "2"
 
 S = "${WORKDIR}/git"
@@ -54,9 +53,9 @@ do_configure_append() {
     cp ${WORKDIR}/Env.txt ${DEPLOY_DIR_IMAGE}
 }
 
-do_compile_prepend() {
-    cp ${WORKDIR}/bl31.bin ${B}
-}
+EXTRA_OEMAKE_append_sun50i = " BL31=${DEPLOY_DIR_IMAGE}/bl31.bin "
+
+do_compile_sun50i[depends] += "atf-sunxi:do_deploy"
 
 do_compile_append() {
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
