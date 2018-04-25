@@ -2,7 +2,7 @@ SUMMARY = "An image to run Emlid Neutis"
 LICENSE = "MIT"
 
 PACKAGE_CLASSES = "package_ipk"
-IMAGE_FEATURES += "splash package-management ssh-server-openssh tools-sdk tools-debug"
+IMAGE_FEATURES += "splash package-management ssh-server-openssh tools-debug"
 
 IMAGE_INSTALL_append += "kernel-modules"
 IMAGE_INSTALL_append += "bash"
