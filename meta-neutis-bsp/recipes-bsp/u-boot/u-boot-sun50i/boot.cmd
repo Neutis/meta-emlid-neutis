@@ -6,6 +6,7 @@
 setenv loglevel "10"
 setenv rootdev "/dev/mmcblk0p2"
 setenv device "1"
+setenv initrd_addr_r "0x41080000"
 setenv load_addr "0x44000000"
 setenv overlay_error "false"
 
@@ -14,7 +15,7 @@ if test -e mmc ${device} Env.txt; then
     env import -t ${load_addr} ${filesize}
 fi
 
-setenv bootargs "console=${console} console=tty1 root=${rootdev} panic=10 loglevel=${loglevel}"
+setenv bootargs "console=${console} earlyprintk root=${rootdev} rw rootwait fsck.repair=yes panic=10 loglevel=${loglevel}"
 
 # Load DT file
 load mmc ${device} ${fdt_addr_r} ${fdtfile}
@@ -34,4 +35,5 @@ if test "${overlay_error}" = "true"; then
 fi
 
 load mmc ${device} ${kernel_addr_r} Image
-booti ${kernel_addr_r} - ${fdt_addr_r}
+load mmc ${device} ${initrd_addr_r} initramfs.cpio.gz
+booti ${kernel_addr_r} ${initrd_addr_r}:500000 ${fdt_addr_r}
