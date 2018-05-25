@@ -27,7 +27,7 @@ IMAGE_INSTALL_append += "init-ifupdown"
 IMAGE_INSTALL_append += "wifi-mode-switcher"
 IMAGE_INSTALL_append += "bluez5"
 IMAGE_INSTALL_append += "ap6212-firmware"
-IMAGE_INSTALL_append += "ap6212-bt-initialization"
+IMAGE_INSTALL_append += "bluetooth-rfkill-event"
 
 # I2C
 IMAGE_INSTALL_append += "i2c-tools"
