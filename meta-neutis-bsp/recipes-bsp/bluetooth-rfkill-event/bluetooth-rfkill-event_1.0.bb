@@ -12,6 +12,7 @@ inherit systemd
 SRC_URI += "\
         file://bluetooth_rfkill_event.c \
         file://bluetooth-rfkill-event.service \
+        file://main.conf \
 "
 
 SYSTEMD_SERVICE_${PN} = "bluetooth-rfkill-event.service"
@@ -31,6 +32,8 @@ do_install() {
         install -m 0755 bluetooth_rfkill_event ${D}${bindir}
         install -d ${D}${systemd_unitdir}/system
         install -m 0644 ${S}/bluetooth-rfkill-event.service ${D}${systemd_unitdir}/system
+        install -d ${D}${sysconfdir}/bluetooth
+        install -m 0644 ${S}/main.conf ${D}${sysconfdir}/bluetooth/main.conf
 }
 
 systemd_postinst() {
@@ -51,3 +54,4 @@ fi
 
 FILES_${PN} += "${base_libdir}/systemd/system/bluetooth-rfkill-event.service"
 FILES_${PN} += "${bindir}/bluetooth_rfkill_event"
+FILES_${PN} += "${sysconfdir}/bluetooth/main.conf"
