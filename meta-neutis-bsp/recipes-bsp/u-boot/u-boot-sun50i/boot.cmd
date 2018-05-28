@@ -35,5 +35,5 @@ if test "${overlay_error}" = "true"; then
 fi
 
 load mmc ${device} ${kernel_addr_r} Image
-load mmc ${device} ${initrd_addr_r} initramfs.cpio.gz
-booti ${kernel_addr_r} ${initrd_addr_r}:500000 ${fdt_addr_r}
+load mmc ${device} ${initrd_addr_r} uInitrd
+booti ${kernel_addr_r} ${initrd_addr_r} ${fdt_addr_r}
