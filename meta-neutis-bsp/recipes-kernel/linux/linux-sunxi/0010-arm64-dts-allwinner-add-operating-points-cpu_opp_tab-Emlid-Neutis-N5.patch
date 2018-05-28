@@ -1,15 +1,15 @@
-From 57906dc6c5dcff0fd23b6c954e9b963c9c48b370 Mon Sep 17 00:00:00 2001
+From 3606dcca357aa19a033ad9200371e5df64fa261c Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Tue, 24 Apr 2018 18:20:33 +0300
 Subject: [PATCH] arm64: dts: allwinner: add operating-points & cpu_opp_table
- for Neutis N5
+ for Emlid Neutis N5
 
 ---
- .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 70 ++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 69 ++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
-index 98dd3f4..0151eeb 100644
+index 98dd3f4..58a05ff 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
 @@ -44,6 +44,7 @@
@@ -20,7 +20,7 @@ index 98dd3f4..0151eeb 100644
  
  / {
  	model = "Emlid Neutis N5";
-@@ -88,6 +89,75 @@
+@@ -88,6 +89,74 @@
          name = "bcm43xx";
          type = "bluetooth";
      };
@@ -36,7 +36,6 @@ index 98dd3f4..0151eeb 100644
 +&cpu0 {
 +    operating-points = <
 +        /* kHz    uV */
-+        912000  1100000
 +        816000  1100000
 +        624000  1100000
 +        480000  1100000
@@ -46,7 +45,7 @@ index 98dd3f4..0151eeb 100644
 +        >;
 +    #cooling-cells = <2>;
 +    cooling-min-level = <0>;
-+    cooling-max-level = <6>;
++    cooling-max-level = <5>;
 +    cpu-supply = <&reg_cpu_fallback_1_1V>;
 +};
 +
