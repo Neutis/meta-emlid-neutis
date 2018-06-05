@@ -1,0 +1,11 @@
+[Unit]
+Description=Bluetooth rfkill daemon with AP6212 initialization 
+Before=bluetooth.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bluetooth_rfkill_event
+Restart=on-failure
+
+[Install]
+WantedBy=bluetooth.target multi-user.target
