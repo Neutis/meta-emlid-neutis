@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sys/poll.h>
 #include <sys/time.h>
+#include <sys/ioctl.h>
 #include <limits.h>
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
@@ -22,6 +23,8 @@ enum {
 #define BCM_43341_UART_DEV "/dev/ttyS1"
 #define BAUDRATE "1500000"
 #define BCM_DEVICE "bcm43xx"
+#define MAX_RETRY 10
+
 
 enum rfkill_operation {
     RFKILL_OP_ADD = 0,
@@ -61,15 +64,21 @@ int bt_pwr_rfkill_idx;
 static void free_hci()
 {
     char cmd[PATH_MAX];
+    char killcmd[PATH_MAX];
 
     snprintf(cmd, sizeof(cmd), "pidof %s", hciattach);
 
     if (!system(cmd)) {
-        snprintf(cmd, sizeof(cmd), "killall %s", hciattach);
-        system(cmd);
-        printf("killing %s\n", hciattach);
-        fflush(stdout);
-        hci_dev_registered = false;
+        snprintf(killcmd, sizeof(killcmd), "killall %s", hciattach);
+        if (!system(killcmd)) {
+            hci_dev_registered = false;
+            printf("killing %s\n", hciattach);
+            fflush(stdout);
+        }
+        else {
+            printf("killing %s failed\n", hciattach);
+            fflush(stdout);
+        }
     }
 }
 
@@ -81,10 +90,8 @@ static void attach_hci()
 
     printf("execute %s\n", hci_execute);
     fflush(stdout);
-
+    
     system(hci_execute);
-
-    /* remember if hci device has been registered (in case conf file is changed) */
     hci_dev_registered = true;
 }
 
@@ -113,8 +120,59 @@ static void rfkill_bluetooth_unblock()
     }
     close(fd);
 
-    printf("Send rfkill unblock event after \n");
+    printf("Send rfkill unblock event \n");
     fflush(stdout);
+}
+
+void up_hci(int hci_idx)
+{
+    int sk, i;
+    struct hci_dev_info hci_info;
+
+    sk = socket(AF_BLUETOOTH, SOCK_RAW, BTPROTO_HCI);
+
+    if (sk < 0)
+    {
+        perror("Fail to create bluetooth hci socket");
+        return;
+    }
+
+    memset(&hci_info, 0, sizeof(hci_info));
+
+    hci_info.dev_id = hci_idx;
+
+    for (i = 0;  i < MAX_RETRY; i++)
+    {
+        if (ioctl(sk, HCIGETDEVINFO, (void *) &hci_info) < 0)
+        {
+            perror("Failed to get HCI device information");
+            /* sleep 100ms */
+            usleep(100*1000);
+            continue;
+        }
+
+        if (hci_test_bit(HCI_RUNNING, &hci_info.flags) && !hci_test_bit(HCI_INIT, &hci_info.flags))
+        {
+            /* check if kernel has already set device UP... */
+            if (!hci_test_bit(HCI_UP, &hci_info.flags))
+            {
+                if (ioctl(sk, HCIDEVUP, hci_idx) < 0)
+                {
+                    /* ignore if device is already UP and ready */
+                    if (errno == EALREADY)
+                        break;
+
+                    perror("Fail to set hci device UP");
+                }
+            }
+            break;
+        }
+
+        /* sleep 100ms */
+        usleep(100*1000);
+    }
+
+    close(sk);
 }
 
 static void init_ap6212()
@@ -233,11 +291,14 @@ int main(int argc, char** argv)
             if (event.soft == 0 && event.hard == 0) {
                 rfkill_bluetooth_unblock();
 
-                if ((type == BT_PWR) || (type == BT_HCI && hci_dev_registered)) {
+                if (type == BT_PWR) {
                     init_ap6212();
                 }
+                else if (type == BT_HCI && hci_dev_registered) {
+                    up_hci(hci_dev_id);
+                }
             }
-            else if (event.soft == 1 && type == BT_PWR) {
+            else if (event.soft == 1 && type == BT_PWR && hci_dev_registered) {
                 /* for a block event on power interface force unblock of hci device interface */
                 free_hci();
             }
