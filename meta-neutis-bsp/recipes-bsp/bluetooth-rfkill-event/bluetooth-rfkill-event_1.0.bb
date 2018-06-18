@@ -1,6 +1,6 @@
 DESCRIPTION = "Bluetooth rfkill event daemon for Bluetooth chips"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+LICENSE = "GPLv2"
+LIC_FILES_CHKSUM = "file://${THISDIR}/COPYING;md5=a7623a8dfa7b9d53670ed3465639ff5b"
 
 RDEPENDS_${PN} = "systemd bash"
 DEPENDS = "systemd bash bluez5"
