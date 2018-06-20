@@ -35,5 +35,9 @@ if test "${overlay_error}" = "true"; then
 fi
 
 load mmc ${device} ${kernel_addr_r} Image
-load mmc ${device} ${initrd_addr_r} uInitrd
-booti ${kernel_addr_r} ${initrd_addr_r} ${fdt_addr_r}
+
+if load mmc ${device} ${initrd_addr_r} uInitrd; then
+    booti ${kernel_addr_r} ${initrd_addr_r} ${fdt_addr_r}
+else
+    booti ${kernel_addr_r} - ${fdt_addr_r}
+fi
