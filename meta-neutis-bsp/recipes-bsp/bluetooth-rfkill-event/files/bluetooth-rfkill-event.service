@@ -1,5 +1,5 @@
 [Unit]
-Description=Bluetooth rfkill daemon with AP6212 initialization 
+Description=Bluetooth rfkill daemon with AP6212(A) initialization
 Before=bluetooth.service
 
 [Service]

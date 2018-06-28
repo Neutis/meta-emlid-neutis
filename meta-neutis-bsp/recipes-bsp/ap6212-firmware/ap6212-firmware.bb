@@ -1,10 +1,9 @@
-DESCRIPTION = "Firmware for Ampak AP6212"
+DESCRIPTION = "Firmware for Ampak AP6212(A)"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.broadcom;md5=18b6b752a010900b9c111f528f8c8ffd"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/:"
 
 SRC_URI += "\
-    file://brcm-patchram-plus/brcm_patchram_plus.c \
     file://LICENSE.broadcom \
     file://fw_bcm43438a0_apsta.bin \
     file://fw_bcm43438a0.bin \
@@ -24,14 +23,7 @@ SRC_URI += "\
 
 S = "${WORKDIR}"
 
-do_compile () {
-    ${CC} ${CFLAGS} ${LDFLAGS} brcm-patchram-plus/brcm_patchram_plus.c -o brcm_patchram_plus
-}
-
 do_install () {
-    install -d ${D}${bindir}
-    install -m 0755 ${B}/brcm_patchram_plus ${D}${bindir}/brcm_patchram_plus
-    
     install -d ${D}${base_libdir}/firmware/ap6212
     install -c -m 0644 ${WORKDIR}/fw_bcm43438a0_apsta.bin ${D}${base_libdir}/firmware/ap6212
     install -c -m 0644 ${WORKDIR}/fw_bcm43438a0.bin ${D}${base_libdir}/firmware/ap6212
@@ -57,7 +49,6 @@ do_install () {
 }
 
 FILES_${PN} += "\
-    ${bindir}/brcm_patchram_plus \
     ${base_libdir}/firmware/ap6212/fw_bcm43438a0_apsta.bin \
     ${base_libdir}/firmware/ap6212/fw_bcm43438a0.bin \
     ${base_libdir}/firmware/ap6212/fw_bcm43438a0_p2p.bin \
