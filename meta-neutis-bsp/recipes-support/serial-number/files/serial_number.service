@@ -1,0 +1,10 @@
+[Unit]
+Description=Save device serial number to /var/run/serial_number
+After=sysinit.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "state=false ; i=0 ; while [ $i -lt 20 ]; do i=$[$i+1] ;  serial_number > /var/run/serial_number ; if [ $? -eq 0 ]; then  state=true ;  break ; sleep 0.01 ; fi ; done ; if [ $state == false ]; then  echo -n > /var/run/serial_number; fi"
+
+[Install]
+WantedBy=multi-user.target

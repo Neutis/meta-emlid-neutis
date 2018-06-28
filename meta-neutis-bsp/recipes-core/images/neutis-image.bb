@@ -19,12 +19,10 @@ IMAGE_INSTALL_append += "dhcp-server dhcp-client"
 IMAGE_INSTALL_append += "iw"
 
 # WiFi/BT
-IMAGE_INSTALL_append += "hostapd"
 IMAGE_INSTALL_append += "wireless-tools"
 IMAGE_INSTALL_append += "wpa-supplicant"
 IMAGE_INSTALL_append += "networkmanager"
 IMAGE_INSTALL_append += "init-ifupdown"
-IMAGE_INSTALL_append += "wifi-mode-switcher"
 IMAGE_INSTALL_append += "bluez5"
 IMAGE_INSTALL_append += "ap6212-firmware"
 IMAGE_INSTALL_append += "bluetooth-rfkill-event"
@@ -60,6 +58,7 @@ IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc
 
 # BSP
 IMAGE_INSTALL_append += "reflash-utility"
+IMAGE_INSTALL_append += "serial-number"
 IMAGE_INSTALL_append += "openssl"
 PREFERRED_VERSION_openssl = "1.0.2k"
 IMAGE_INSTALL_append += "openssl-atecc508a openssl-atecc508a-dev"
