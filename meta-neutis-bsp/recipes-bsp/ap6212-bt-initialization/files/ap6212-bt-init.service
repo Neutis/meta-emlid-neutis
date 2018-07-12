@@ -1,0 +1,10 @@
+[Unit]	
+Description=Bluetooth initialization for AP6212(A)	
+Before=bluetooth.service	
+	
+[Service]	
+Type=forking
+ExecStart=/usr/bin/ap6212-bt-init	
+	
+[Install]	
+WantedBy=multi-user.target
