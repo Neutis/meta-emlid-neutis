@@ -35,7 +35,9 @@
 #include <stdio.h>
 #include <cryptoauthlib.h>
 
-#define NEUTISN5_SERIAL_APPEND     "7853"      /* 2 ASCII symbols */
+#ifndef SERIAL_APPEND
+    #error "SERIAL_APPEND not defined"
+#endif
 
 ATCAIfaceCfg g_iface_config = {
     .iface_type        = ATCA_I2C_IFACE,
@@ -72,7 +74,7 @@ int read_atecc_serial_number(char* serial_number)
     }
 
     sprintf(serial_number, "%s%02X%02X%02X%02X%02X%02X",
-            NEUTISN5_SERIAL_APPEND,
+            SERIAL_APPEND,
             atecc_serial_num[2],
             atecc_serial_num[3],
             atecc_serial_num[4],

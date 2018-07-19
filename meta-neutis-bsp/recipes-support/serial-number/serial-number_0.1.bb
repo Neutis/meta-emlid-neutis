@@ -23,9 +23,10 @@ INSANE_SKIP_${PN} = "file-rdeps"
 INC_DIRS = "-I${STAGING_INCDIR}/ateccssl"
 LIB_DIRS = "-L${STAGING_LIBDIR}"
 LIBS = "-lateccssl"
+SERIAL_MAGIC ?= "7853"
 
 do_compile() {
-	${CC} ${CFLAGS} ${LDFLAGS} ${LIB_DIRS} ${INC_DIRS} ${S}/serial-number.c -o serial_number ${LIBS}
+	${CC} -DSERIAL_APPEND=\"${SERIAL_MAGIC}\" ${CFLAGS} ${LDFLAGS} ${LIB_DIRS} ${INC_DIRS} ${S}/serial-number.c -o serial_number ${LIBS}
 }
 
 do_install() {
