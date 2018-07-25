@@ -1,7 +1,7 @@
-From ed42ea59f8de06c1c15d1549585b794129a037b6 Mon Sep 17 00:00:00 2001
+From c31e0635c674ed4ad6acb676ccff33ede9de2491 Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Thu, 30 Nov 2017 14:49:58 +0300
-Subject: [PATCH] rtc: rtc-sun6i: Enable LOSC output gating
+Subject: [PATCH 07/17] rtc: rtc-sun6i: Enable LOSC output gating
 
 It's needed for peripheral devices, bluetooth device, for example:
 Ampak AP6212(A): bluetooth doesn't work correctly without External Low Power Clock
@@ -10,10 +10,10 @@ Ampak AP6212(A): bluetooth doesn't work correctly without External Low Power Clo
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index 3d2216c..2c529a0 100644
+index 2e6fb27..e1a2cb7 100644
 --- a/drivers/rtc/rtc-sun6i.c
 +++ b/drivers/rtc/rtc-sun6i.c
-@@ -216,6 +216,10 @@ static void __init sun6i_rtc_clk_init(struct device_node *node)
+@@ -218,6 +218,10 @@ static void __init sun6i_rtc_clk_init(struct device_node *node)
  	writel(SUN6I_LOSC_CTRL_KEY | SUN6I_LOSC_CTRL_EXT_OSC,
  	       rtc->base + SUN6I_LOSC_CTRL);
  

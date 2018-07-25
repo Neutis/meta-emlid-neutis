@@ -1,18 +1,18 @@
-From 46e6bee80a594a0768e3931e0b057a2279f5e804 Mon Sep 17 00:00:00 2001
+From d07a005feb57f0cf66a5bb9767eafeb76b6b898b Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Thu, 15 Mar 2018 13:39:01 +0300
-Subject: [PATCH] net: rfkill-gpio: add new of_device_id struct, compatible -
- 'rfkill-gpio'
+Subject: [PATCH 08/17] net: rfkill-gpio: add new of_device_id struct,
+ compatible - 'rfkill-gpio'
 
 ---
  net/rfkill/rfkill-gpio.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/net/rfkill/rfkill-gpio.c b/net/rfkill/rfkill-gpio.c
-index 41bd496..1c8bf98 100644
+index 00192a9..d4bc958 100644
 --- a/net/rfkill/rfkill-gpio.c
 +++ b/net/rfkill/rfkill-gpio.c
-@@ -165,12 +165,18 @@ static const struct acpi_device_id rfkill_acpi_match[] = {
+@@ -170,12 +170,18 @@ static const struct acpi_device_id rfkill_acpi_match[] = {
  MODULE_DEVICE_TABLE(acpi, rfkill_acpi_match);
  #endif
  

@@ -1,15 +1,15 @@
-From 3606dcca357aa19a033ad9200371e5df64fa261c Mon Sep 17 00:00:00 2001
+From 2e32a4d9856e4237af3dd401635c5a9a4d9fdf3e Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Tue, 24 Apr 2018 18:20:33 +0300
-Subject: [PATCH] arm64: dts: allwinner: add operating-points & cpu_opp_table
- for Emlid Neutis N5
+Subject: [PATCH 16/17] arm64: dts: allwinner: add operating-points &
+ cpu_opp_table for Emlid Neutis N5
 
 ---
  .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 69 ++++++++++++++++++++++
  1 file changed, 69 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
-index 98dd3f4..58a05ff 100644
+index 173612b..41b6abf 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
 @@ -44,6 +44,7 @@

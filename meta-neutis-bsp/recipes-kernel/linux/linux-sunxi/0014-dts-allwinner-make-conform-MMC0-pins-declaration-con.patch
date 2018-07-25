@@ -1,0 +1,37 @@
+From c45bbec385b81d1e607d7e51f899491ba05cde45 Mon Sep 17 00:00:00 2001
+From: Georgii Staroselskii <georgii.staroselskii@emlid.com>
+Date: Tue, 17 Jul 2018 14:30:49 +0300
+Subject: [PATCH 14/17] dts: allwinner: make conform MMC0 pins declaration
+ conformant
+
+There was a change back in 6d84b6c9 that needs addressing. Othewise DT
+build would fail.
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+index 98dd3f4..173612b 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+@@ -100,7 +100,7 @@
+ 
+ &mmc0 {
+ 	pinctrl-names = "default";
+-	pinctrl-0 = <&mmc0_pins_a>, <&mmc0_cd_pin>;
++	pinctrl-0 = <&mmc0_pins>;
+ 	vmmc-supply = <&reg_vcc3v3>;
+ 	bus-width = <4>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+@@ -109,7 +109,7 @@
+ 
+ &mmc1 {
+     pinctrl-names = "default";
+-    pinctrl-0 = <&mmc1_pins_a>;
++    pinctrl-0 = <&mmc1_pins>;
+     vmmc-supply = <&reg_vcc3v3>;
+     vqmmc-supply = <&reg_vcc3v3>;
+     mmc-pwrseq = <&wifi_pwrseq>;
+-- 
+2.7.4
+

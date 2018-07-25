@@ -1,0 +1,27 @@
+From b9e8e69f7d50b32623200ed407495664aab678e4 Mon Sep 17 00:00:00 2001
+From: Georgii Staroselskii <georgii.staroselskii@emlid.com>
+Date: Tue, 17 Jul 2018 14:33:22 +0300
+Subject: [PATCH 15/17] dts: allwinner: audio-codec: add LINEIN and MIC2
+ routing
+
+---
+ arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-analog-codec.dts | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-analog-codec.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-analog-codec.dts
+index aaa66d5..4cff29a 100644
+--- a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-analog-codec.dts
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-analog-codec.dts
+@@ -9,7 +9,9 @@
+ 		__overlay__ {
+ 			allwinner,audio-routing =
+ 				"Line Out", "LINEOUT",
++				"LINEIN", "Line In",
+ 				"MIC1", "Mic",
++				"MIC2", "Mic",
+ 				"Mic",  "MBIAS";
+ 			status = "okay";
+ 		};
+-- 
+2.7.4
+

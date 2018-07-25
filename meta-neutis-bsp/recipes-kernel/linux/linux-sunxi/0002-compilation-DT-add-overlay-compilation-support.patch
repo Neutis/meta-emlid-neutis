@@ -1,7 +1,7 @@
-From 5e1f2243beef76db417ca2027a8d97d7e63276f7 Mon Sep 17 00:00:00 2001
+From 225d5f3a81d9da92cbe7b70349a6bbc271efaeea Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Thu, 15 Mar 2018 16:37:24 +0300
-Subject: [PATCH] compilation DT: add overlay compilation support
+Subject: [PATCH 02/17] compilation DT: add overlay compilation support
 
 visit https://github.com/armbian/build for the details
 ---
@@ -13,10 +13,10 @@ visit https://github.com/armbian/build for the details
  5 files changed, 48 insertions(+), 3 deletions(-)
 
 diff --git a/.gitignore b/.gitignore
-index f6050b8..1d6987e 100644
+index 97ba6b7..d0068a0 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -14,7 +14,8 @@
+@@ -15,7 +15,8 @@
  *.bin
  *.bz2
  *.c.[012]*.*
@@ -27,10 +27,10 @@ index f6050b8..1d6987e 100644
  *.dwo
  *.elf
 diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-index 80351e5..e5c3fda 100644
+index e4e537f..260c365 100644
 --- a/arch/arm/Makefile
 +++ b/arch/arm/Makefile
-@@ -343,6 +343,12 @@ $(INSTALL_TARGETS):
+@@ -346,6 +346,12 @@ $(INSTALL_TARGETS):
  %.dtb: | scripts
  	$(Q)$(MAKE) $(build)=$(boot)/dts MACHINE=$(MACHINE) $(boot)/dts/$@
  
@@ -44,10 +44,10 @@ index 80351e5..e5c3fda 100644
  
  dtbs: prepare scripts
 diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index b481b4a..f1b42f5 100644
+index 87f7d2f..b474279 100644
 --- a/arch/arm64/Makefile
 +++ b/arch/arm64/Makefile
-@@ -134,6 +134,12 @@ zinstall install:
+@@ -135,6 +135,12 @@ zinstall install:
  %.dtb: scripts
  	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
  
@@ -97,10 +97,10 @@ index 7301ab5..03ed927 100644
  
  .PHONY: $(PHONY)
 diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 06cf4c0..183e88a 100644
+index 5af34a2b..f349860 100644
 --- a/scripts/Makefile.lib
 +++ b/scripts/Makefile.lib
-@@ -263,6 +263,9 @@ cmd_gzip = (cat $(filter-out FORCE,$^) | gzip -n -f -9 > $@) || \
+@@ -245,6 +245,9 @@ cmd_gzip = (cat $(filter-out FORCE,$^) | gzip -n -f -9 > $@) || \
  # ---------------------------------------------------------------------------
  DTC ?= $(objtree)/scripts/dtc/dtc
  
@@ -108,10 +108,10 @@ index 06cf4c0..183e88a 100644
 +DTC_FLAGS += -@ -Wno-unit_address_format -Wno-simple_bus_reg
 +
  # Disable noisy checks by default
- ifeq ($(KBUILD_ENABLE_EXTRA_GCC_CHECKS),)
+ ifeq ($(findstring 1,$(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
  DTC_FLAGS += -Wno-unit_address_vs_reg \
-@@ -309,6 +312,23 @@ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
- $(obj)/%.dtb: $(src)/%.dts FORCE
+@@ -290,6 +293,23 @@ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
+ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
  	$(call if_changed_dep,dtc)
  
 +quiet_cmd_dtco = DTCO    $@

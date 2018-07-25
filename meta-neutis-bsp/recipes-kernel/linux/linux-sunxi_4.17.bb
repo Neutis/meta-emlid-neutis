@@ -23,6 +23,22 @@ KBRANCH = "linux-4.17.y"
 
 SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-4.17.y \
         file://defconfig \
+        file://0001-megous-linux-ths-4.17.patch \
+        file://0002-compilation-DT-add-overlay-compilation-support.patch \
+        file://0003-arm64-dts-allwinner-add-overlays-for-a64-and-h5-SoCs.patch \
+        file://0004-arm-dts-allwinner-add-overlays-for-a10-a20-and-h3-So.patch \
+        file://0005-arm-dts-add-uart2-uart3-rts_cts-pins-for-sunxi-h3-h5.patch \
+        file://0006-arm-dts-allwinner-add-r-uart-and-r-i2c-for-sunxi-h3-.patch \
+        file://0007-rtc-rtc-sun6i-Enable-LOSC-output-gating.patch \
+        file://0008-net-rfkill-gpio-add-new-of_device_id-struct-compatib.patch \
+        file://0009-drivers-spi-spidev-new-compatible-spidev.patch \
+        file://0010-dts-allwinner-add-new-board-Emlid-Neutis-N5.patch \
+        file://0011-arm-dts-allwinner-add-DT-layers-to-enable-spi-0-1.patch \
+        file://0012-arm64-dts-allwinner-add-sun50i-h5-ethernet-100-overl.patch \
+        file://0013-arm-dts-allwinner-add-hdmi-overlay.patch \
+        file://0014-dts-allwinner-make-conform-MMC0-pins-declaration-con.patch \
+        file://0015-dts-allwinner-audio-codec-add-LINEIN-and-MIC2-routin.patch \
+        file://0016-arm64-dts-allwinner-add-operating-points-cpu_opp_tab.patch \
         "
 
 

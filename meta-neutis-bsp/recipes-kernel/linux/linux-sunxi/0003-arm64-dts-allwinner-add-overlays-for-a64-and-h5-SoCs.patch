@@ -1,11 +1,11 @@
-From f36bb8d67fc135914630471c07c8c44fb5b6b785 Mon Sep 17 00:00:00 2001
+From 9fc496907d9ac364c10e0c6cd9d9c5487151e60e Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Thu, 15 Mar 2018 18:41:55 +0300
-Subject: [PATCH] arm64: dts: allwinner: add overlays for a64 and h5 SoCs
+Subject: [PATCH 03/17] arm64: dts: allwinner: add overlays for a64 and h5 SoCs
 
 visit https://github.com/armbian/build for the details
 ---
- arch/arm64/boot/dts/allwinner/Makefile             |   3 +
+ arch/arm64/boot/dts/allwinner/Makefile             |   5 +
  arch/arm64/boot/dts/allwinner/overlay/Makefile     |  44 ++++
  .../allwinner/overlay/README.sun50i-a64-overlays   | 196 ++++++++++++++++
  .../allwinner/overlay/README.sun50i-h5-overlays    | 250 +++++++++++++++++++++
@@ -41,7 +41,7 @@ visit https://github.com/armbian/build for the details
  .../dts/allwinner/overlay/sun50i-h5-usbhost2.dts   |  27 +++
  .../dts/allwinner/overlay/sun50i-h5-usbhost3.dts   |  27 +++
  .../dts/allwinner/overlay/sun50i-h5-w1-gpio.dts    |  29 +++
- 36 files changed, 1601 insertions(+)
+ 36 files changed, 1603 insertions(+)
  create mode 100644 arch/arm64/boot/dts/allwinner/overlay/Makefile
  create mode 100644 arch/arm64/boot/dts/allwinner/overlay/README.sun50i-a64-overlays
  create mode 100644 arch/arm64/boot/dts/allwinner/overlay/README.sun50i-h5-overlays
@@ -79,13 +79,15 @@ visit https://github.com/armbian/build for the details
  create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-w1-gpio.dts
 
 diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index f505227..c417822 100644
+index 8bebe7d..dd88c20 100644
 --- a/arch/arm64/boot/dts/allwinner/Makefile
 +++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -10,3 +10,6 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-prime.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus2.dtb
+@@ -13,3 +13,8 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus2.dtb
  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo2.dtb
  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo-plus2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo2.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo-plus2.dtb
 +
 +subdir-y := overlay
 +dts-dirs += overlay

@@ -1,7 +1,8 @@
-From ba1c11585a02558f43de97934110df3e058b2178 Mon Sep 17 00:00:00 2001
+From 0aa6b9f4b2355d64a2441088f77ab47e07a01082 Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
 Date: Tue, 20 Mar 2018 16:29:56 +0300
-Subject: [PATCH] arm64: dts: allwinner: add sun50i-h5-ethernet-100 overlay
+Subject: [PATCH 12/17] arm64: dts: allwinner: add sun50i-h5-ethernet-100
+ overlay
 
 ---
  arch/arm64/boot/dts/allwinner/overlay/Makefile     |  1 +
