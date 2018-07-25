@@ -49,6 +49,8 @@ IMAGE_INSTALL_append += "parted"
 IMAGE_INSTALL_append += "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs"
 IMAGE_INSTALL_append += "e2fsprogs-badblocks libcomerr libss libe2p libext2fs dosfstools"
 
+IMAGE_INSTALL_append += "rng-tools"
+
 # Python
 IMAGE_INSTALL_append += "python"
 IMAGE_INSTALL_append += "python-dbus python-pygobject python-argparse"
