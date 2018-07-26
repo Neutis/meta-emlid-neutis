@@ -1,0 +1,171 @@
+From c839d8d65e2e90b6634efb8cb02beab2a1b74315 Mon Sep 17 00:00:00 2001
+From: Alexey Bulatov <alexey.bulatov@emlid.com>
+Date: Fri, 20 Jul 2018 18:10:39 +0300
+Subject: [PATCH 1/2] arm64: dts: allwinner: add camera support
+
+Disable it by default.
+---
+ .../dts/allwinner/sun50i-h5-emlid-neutis-n5.dts    | 81 ++++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+index 41b6abf..a2e85a6 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+@@ -96,6 +96,37 @@
+         regulator-min-microvolt = <1100000>;
+         regulator-max-microvolt = <1100000>;
+     };
++
++    cam_xclk: cam-xclk {
++         #clock-cells = <0>;
++         compatible = "fixed-clock";
++         clock-frequency = <24000000>;
++         clock-output-names = "cam-xclk";
++    };
++
++    reg_cam_avdd: cam-avdd {
++         compatible = "regulator-fixed";
++         regulator-name = "cam500b-avdd";
++         regulator-min-microvolt = <2800000>;
++         regulator-max-microvolt = <2800000>;
++         vin-supply = <&reg_vcc3v3>;
++    };
++
++    reg_cam_dovdd: cam-dovdd {
++         compatible = "regulator-fixed";
++         regulator-name = "cam500b-dovdd";
++         regulator-min-microvolt = <1800000>;
++         regulator-max-microvolt = <1800000>;
++         vin-supply = <&reg_vcc3v3>;
++    };
++
++    reg_cam_dvdd: cam-dvdd {
++         compatible = "regulator-fixed";
++         regulator-name = "cam500b-dvdd";
++         regulator-min-microvolt = <1500000>;
++         regulator-max-microvolt = <1500000>;
++         vin-supply = <&reg_vcc3v3>;
++    };
+ };
+ 
+ &cpu0 {
+@@ -272,3 +303,53 @@
+         spi-max-frequency = <10000000>;
+     };
+ };
++
++&csi {
++    status = "disabled";
++
++    port {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* Parallel bus endpoint */
++        csi_from_ov5640: endpoint {
++            remote-endpoint = <&ov5640_to_csi>;
++            bus-width = <8>;
++            data-shift = <2>;
++            hsync-active = <1>; /* Active high */
++            vsync-active = <0>; /* Active low */
++            data-active = <1>;  /* Active high */
++            pclk-sample = <1>;  /* Rising */
++        };
++    };
++};
++
++&i2c2 {
++   status = "disabled";
++
++   ov5640: camera@3c {
++        compatible = "ovti,ov5640";
++        status = "disabled";
++        reg = <0x3c>;
++        clocks = <&cam_xclk>;
++        clock-names = "xclk";
++
++        reset-gpios = <&pio 4 14 GPIO_ACTIVE_LOW>;
++        powerdown-gpios = <&pio 4 15 GPIO_ACTIVE_HIGH>;
++        AVDD-supply = <&reg_cam_avdd>;
++        DOVDD-supply = <&reg_cam_dovdd>;
++        DVDD-supply = <&reg_cam_dvdd>;
++
++        port {
++            ov5640_to_csi: endpoint {
++                remote-endpoint = <&csi_from_ov5640>;
++                bus-width = <8>;
++                data-shift = <2>;
++                hsync-active = <1>; /* Active high */
++                vsync-active = <0>; /* Active low */
++                data-active = <1>;  /* Active high */
++                pclk-sample = <1>;  /* Rising */
++            };
++        };
++    };
++};
+-- 
+2.7.4
+
+
+From ddcec0bb8f237961ad530be2c05e76fc7e7b8afd Mon Sep 17 00:00:00 2001
+From: Alexey Bulatov <alexey.bulatov@emlid.com>
+Date: Thu, 26 Jul 2018 18:40:49 +0300
+Subject: [PATCH 2/2] arm64: dts: allwinner: add camera-status-okay overlay
+
+---
+ arch/arm64/boot/dts/allwinner/overlay/Makefile     |  3 ++-
+ .../overlay/sun50i-h5-camera-status-okay.dts       | 27 ++++++++++++++++++++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-camera-status-okay.dts
+
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+index 1a2010d..336a598 100644
+--- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
++++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+@@ -34,7 +34,8 @@ dtbo-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-h5-usbhost2.dtbo \
+ 	sun50i-h5-usbhost3.dtbo \
+ 	sun50i-h5-hdmi.dtbo \
+-	sun50i-h5-w1-gpio.dtbo
++	sun50i-h5-w1-gpio.dtbo \
++	sun50i-h5-camera-status-okay.dtbo
+ 
+ scr-$(CONFIG_ARCH_SUNXI) += \
+ 	sun50i-a64-fixup.scr \
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-camera-status-okay.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-camera-status-okay.dts
+new file mode 100644
+index 0000000..2eddd3f
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-camera-status-okay.dts
+@@ -0,0 +1,27 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++    compatible = "allwinner,sun50i-h5";
++
++    fragment@0 {
++        target = <&csi>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++
++    fragment@1 {
++        target = <&ov5640>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++
++    fragment@2 {
++        target = <&i2c2>;
++        __overlay__ {
++            status = "okay";
++        };
++    };
++};
+-- 
+2.7.4
+

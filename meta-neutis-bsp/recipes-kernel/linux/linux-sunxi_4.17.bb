@@ -39,6 +39,8 @@ SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.gi
         file://0014-dts-allwinner-make-conform-MMC0-pins-declaration-con.patch \
         file://0015-dts-allwinner-audio-codec-add-LINEIN-and-MIC2-routin.patch \
         file://0016-arm64-dts-allwinner-add-operating-points-cpu_opp_tab.patch \
+        file://0017-allwinner-h3-h5-camera-support.patch \
+        file://0018-arm64-dts-allwinner-add-camera.patch \
         "
 
 
