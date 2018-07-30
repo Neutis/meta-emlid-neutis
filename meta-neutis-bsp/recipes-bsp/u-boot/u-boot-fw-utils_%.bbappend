@@ -4,11 +4,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/u-boot-sun50i/:"
 inherit pythonnative
 DEPENDS += "dtc-native swig-native python-dev python-native"
 
-SRC_URI = " git://git.denx.de/u-boot.git;branch=master \
-            file://0001-arm-sunxi-new-board-Emlid-Neutis-N5.patch \
-           "
+SRC_URI = "git://git@github.com/emlid/u-boot-neutis.git;protocol=ssh"
 
-SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
+SRCREV = "bbbabc1683f41a7757620b06609f6bb9c927078a"
 
 PV = "v2018.01+git${SRCPV}"
 

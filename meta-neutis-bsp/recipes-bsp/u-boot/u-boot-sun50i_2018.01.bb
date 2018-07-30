@@ -28,15 +28,12 @@ file://Licenses/x11.txt;md5=b46f176c847b8742db02126fb8af92e2 \
 COMPATIBLE_MACHINE = "(sun50i)"
 
 DEFAULT_PREFERENCE_sun50i="1"
-
-SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
+SRC_URI = "git://git@github.com/emlid/u-boot-neutis.git;protocol=ssh \
            file://boot.cmd \
            file://Env.txt \
-           file://0001-arm-sunxi-new-board-Emlid-Neutis-N5.patch \
-           file://0002-arm-sunxi-enable-BOOTZ-command.patch \
            "
 
-SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
+SRCREV = "bbbabc1683f41a7757620b06609f6bb9c927078a"
 
 PV = "v2018.01+git${SRCPV}"
 PE = "2"
