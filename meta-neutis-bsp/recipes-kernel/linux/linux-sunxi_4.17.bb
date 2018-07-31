@@ -41,6 +41,8 @@ SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.gi
         file://0016-arm64-dts-allwinner-add-operating-points-cpu_opp_tab.patch \
         file://0017-allwinner-h3-h5-camera-support.patch \
         file://0018-arm64-dts-allwinner-add-camera.patch \
+        file://0019-arm64-allwinner-add-dtsi-file-for-emlid-neutis-n5.patch \
+        file://0020-arm64-allwinner-add-dts-for-neutis-n5-devboard.patch \
         "
 
 
