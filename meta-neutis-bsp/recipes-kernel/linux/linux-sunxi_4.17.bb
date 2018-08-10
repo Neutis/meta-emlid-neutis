@@ -43,6 +43,7 @@ SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.gi
         file://0018-arm64-dts-allwinner-add-camera.patch \
         file://0019-arm64-allwinner-add-dtsi-file-for-emlid-neutis-n5.patch \
         file://0020-arm64-allwinner-add-dts-for-neutis-n5-devboard.patch \
+        file://0021-neutis-add-cooling-maps-and-update-opp.patch \
         "
 
 
