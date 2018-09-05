@@ -56,7 +56,7 @@ IMAGE_INSTALL_append += "python"
 IMAGE_INSTALL_append += "python-dbus python-pygobject python-argparse"
 IMAGE_INSTALL_append += "python-distutils python-pkgutil python-netserver"
 IMAGE_INSTALL_append += "python-xmlrpc python-ctypes python-html python-json python-compile"
-IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc python-importlib"
+IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc"
 
 # BSP
 IMAGE_INSTALL_append += "reflash-utility"

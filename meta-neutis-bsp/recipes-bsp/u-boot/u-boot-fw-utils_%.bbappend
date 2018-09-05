@@ -3,7 +3,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/u-boot/:"
 
 inherit pythonnative
 
-DEPENDS += "dtc-native swig-native python-dev python-native"
+DEPENDS += "dtc-native swig-native python-native"
 
 SRC_URI = "git://git.denx.de/u-boot.git;protocol=https \
            file://0001-arm-sunxi-new-board-Emlid-Neutis-N5.patch \

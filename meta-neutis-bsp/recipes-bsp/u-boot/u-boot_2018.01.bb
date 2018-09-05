@@ -7,7 +7,7 @@ inherit pythonnative
 PROVIDES += "u-boot"
 RPROVIDES_${PN} += "u-boot"
 
-DEPENDS += "dtc-native swig-native python-dev python-native"
+DEPENDS += "dtc-native swig-native python-native"
 DEPENDS_append_sun50i += "atf-sunxi"
 
 LICENSE = "GPLv2"
