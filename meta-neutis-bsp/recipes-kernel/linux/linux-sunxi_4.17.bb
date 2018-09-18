@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 COMPATIBLE_MACHINE = "(sun4i|sun5i|sun7i|sun8i|sun50i)"
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-sunxi/:"
 
-inherit kernel
+inherit kernel allwinner-overlays
 
 require recipes-kernel/linux/linux.inc
 
@@ -46,5 +46,8 @@ SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.gi
         file://0021-neutis-add-cooling-maps-and-update-opp.patch \
         "
 
+do_install_append() {
+    deploy_allwinner_device_tree_blobs
+}
 
 S = "${WORKDIR}/git"

@@ -1,13 +1,14 @@
 DESCRIPTION="Upstream's U-boot configured for sunxi devices"
 FILESEXTRAPATHS_prepend := "${THISDIR}/u-boot/:"
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
 require recipes-bsp/u-boot/u-boot.inc
-inherit pythonnative
+
+DEPENDS += "dtc-native swig-native python-dev python-native"
 
 PROVIDES += "u-boot"
 RPROVIDES_${PN} += "u-boot"
 
-DEPENDS += "dtc-native swig-native python-native"
 DEPENDS_append_sun50i += "atf-sunxi"
 
 LICENSE = "GPLv2"
@@ -28,14 +29,14 @@ file://Licenses/x11.txt;md5=b46f176c847b8742db02126fb8af92e2 \
 COMPATIBLE_MACHINE = "(sun50i)"
 
 DEFAULT_PREFERENCE_sun50i="1"
-SRC_URI = "git://git.denx.de/u-boot.git;protocol=https \
-           file://0001-v2018_07-arch-arm-new-board-Emlid-Neutis-N5-support.patch \
-           file://boot.cmd \
-           file://Env.txt \
-           "
+
+SRC_URI += "git://git.denx.de/u-boot.git;protocol=https \
+            file://0001-v2018_07-arch-arm-new-board-Emlid-Neutis-N5-support.patch \
+            file://boot.cmd \
+            file://Env.txt \
+            "
 
 SRCREV = "8c5d4fd0ec222701598a27b26ab7265d4cee45a3"
-
 PV = "v2018.07+git${SRCPV}"
 PE = "2"
 

@@ -4,13 +4,13 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
 inherit pythonnative
 
-DEPENDS += "dtc-native swig-native python-native"
+DEPENDS += "dtc-native swig-native python-dev python-native"
 
 SRC_URI = "git://git.denx.de/u-boot.git;protocol=https \
-           file://0001-v2018_07-arch-arm-new-board-Emlid-Neutis-N5-support.patch \
-           "
-SRCREV = "8c5d4fd0ec222701598a27b26ab7265d4cee45a3"
+          file://0001-v2018_07-arch-arm-new-board-Emlid-Neutis-N5-support.patch \
+          "
 
+SRCREV = "8c5d4fd0ec222701598a27b26ab7265d4cee45a3"
 PV = "v2018.07+git${SRCPV}"
 
 do_compile () {
