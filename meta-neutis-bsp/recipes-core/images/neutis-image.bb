@@ -56,7 +56,7 @@ IMAGE_INSTALL_append += "python"
 IMAGE_INSTALL_append += "python-dbus python-pygobject python-argparse"
 IMAGE_INSTALL_append += "python-distutils python-pkgutil python-netserver"
 IMAGE_INSTALL_append += "python-xmlrpc python-ctypes python-html python-json python-compile"
-IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc python-importlib"
+IMAGE_INSTALL_append += "python-misc python-numbers python-unittest python-pydoc"
 
 # BSP
 IMAGE_INSTALL_append += "reflash-utility"
@@ -66,7 +66,9 @@ PREFERRED_VERSION_openssl = "1.0.2k"
 IMAGE_INSTALL_append += "openssl-atecc508a openssl-atecc508a-dev"
 IMAGE_INSTALL_append += "neutis-initramfs"
 
-inherit core-image
+inherit core-image allwinner-overlays
+
+ROOTFS_PREPROCESS_COMMAND_append += "deploy_allwinner_device_tree_blobs; "
 
 ROOTFS_POSTPROCESS_COMMAND += "clean_boot_dir ; "
 

@@ -1,37 +1,41 @@
-From 033ad8d77123de267f14fad146bec170b3120cb4 Mon Sep 17 00:00:00 2001
+From 20ca073187da2e5fe16a350eadf4565a415e2b2e Mon Sep 17 00:00:00 2001
 From: AD-Aleksandrov <aleksandr.aleksandrov@emlid.com>
-Date: Sat, 10 Mar 2018 18:27:30 +0300
-Subject: [PATCH] arm: sunxi: new board Emlid Neutis N5 that based on Allwinner
- H5 - add defconfig and DT file to boot from eMMC
+Date: Wed, 5 Sep 2018 15:40:18 +0300
+Subject: [PATCH] arch: arm: new board - Emlid Neutis N5 support
 
+- add neutis target to dtb makefile
+- add dts file for Neutis N5
+- add config file for Neutis N5
+
+Signed-off-by: Aleksandr Aleksandrov <aleksandr.aleksandrov@emlid.com>
 ---
  arch/arm/dts/Makefile                      |  3 +-
- arch/arm/dts/sun50i-h5-emlid-neutis-n5.dts | 93 ++++++++++++++++++++++++++++++
+ arch/arm/dts/sun50i-h5-emlid-neutis-n5.dts | 90 ++++++++++++++++++++++++++++++
  configs/emlid_neutis_n5_defconfig          | 17 ++++++
- 3 files changed, 112 insertions(+), 1 deletion(-)
+ 3 files changed, 109 insertions(+), 1 deletion(-)
  create mode 100644 arch/arm/dts/sun50i-h5-emlid-neutis-n5.dts
  create mode 100644 configs/emlid_neutis_n5_defconfig
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index a895c70..6718785 100644
+index 9460230..d052534 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -349,7 +349,8 @@ dtb-$(CONFIG_MACH_SUN50I_H5) += \
- 	sun50i-h5-nanopi-neo-plus2.dtb \
+@@ -384,7 +384,8 @@ dtb-$(CONFIG_MACH_SUN50I_H5) += \
+ 	sun50i-h5-orangepi-zero-plus.dtb \
  	sun50i-h5-orangepi-pc2.dtb \
  	sun50i-h5-orangepi-prime.dtb \
 -	sun50i-h5-orangepi-zero-plus2.dtb
 +	sun50i-h5-orangepi-zero-plus2.dtb \
 +	sun50i-h5-emlid-neutis-n5.dtb
  dtb-$(CONFIG_MACH_SUN50I) += \
+ 	sun50i-a64-amarula-relic.dtb \
  	sun50i-a64-bananapi-m64.dtb \
- 	sun50i-a64-nanopi-a64.dtb \
 diff --git a/arch/arm/dts/sun50i-h5-emlid-neutis-n5.dts b/arch/arm/dts/sun50i-h5-emlid-neutis-n5.dts
 new file mode 100644
-index 0000000..8cbda20
+index 0000000..deb6e76
 --- /dev/null
 +++ b/arch/arm/dts/sun50i-h5-emlid-neutis-n5.dts
-@@ -0,0 +1,93 @@
+@@ -0,0 +1,90 @@
 +/*s
 + * Copyright (C) 2018 Aleksandr Aleksandrov <aleksandr.aleksandrov@emlid.com>
 + *
@@ -101,12 +105,9 @@ index 0000000..8cbda20
 +};
 +
 +&mmc0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc0_pins_a>, <&mmc0_cd_pin>;
 +	vmmc-supply = <&reg_vcc3v3>;
 +	bus-width = <4>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>; /* PF6 */
-+	cd-inverted;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
 +	status = "okay";
 +};
 +
