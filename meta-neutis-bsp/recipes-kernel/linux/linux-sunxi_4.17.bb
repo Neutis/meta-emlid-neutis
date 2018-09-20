@@ -46,5 +46,4 @@ SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.gi
         file://0021-neutis-add-cooling-maps-and-update-opp.patch \
         "
 
-
 S = "${WORKDIR}/git"
