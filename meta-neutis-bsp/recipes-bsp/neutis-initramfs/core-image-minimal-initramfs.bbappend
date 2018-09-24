@@ -4,6 +4,12 @@ IMAGE_BASENAME = "neutis-initramfs"
 
 DEPENDS = "u-boot-mkimage-native"
 
+PACKAGE_INSTALL_remove = "initramfs-live-install-efi"
+PACKAGE_INSTALL += "e2fsprogs"
+PACKAGE_INSTALL += "e2fsprogs-resize2fs"
+
+
+
 do_make_ramdisk() {
     uboot-mkimage -A arm64 -T ramdisk -C none -n uInitrd -d ${DEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.cpio.gz ${DEPLOY_DIR_IMAGE}/uInitrd
 }
