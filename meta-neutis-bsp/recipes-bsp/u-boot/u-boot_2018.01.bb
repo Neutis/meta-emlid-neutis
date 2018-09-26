@@ -7,7 +7,7 @@ inherit pythonnative
 PROVIDES += "u-boot"
 RPROVIDES_${PN} += "u-boot"
 
-DEPENDS += "dtc-native swig-native python-native"
+DEPENDS += "dtc-native swig-native python-native python-dev"
 DEPENDS_append_sun50i += "atf-sunxi"
 
 LICENSE = "GPLv2"
@@ -29,20 +29,23 @@ COMPATIBLE_MACHINE = "(sun50i)"
 
 DEFAULT_PREFERENCE_sun50i="1"
 SRC_URI = "git://git.denx.de/u-boot.git;protocol=https \
-           file://0001-v2018_07-arch-arm-new-board-Emlid-Neutis-N5-support.patch \
+           file://0001-v2018_01-arch-arm-new-board-Emlid-Neutis-N5-support.patch \
            file://boot.cmd \
            file://Env.txt \
            "
 
-SRCREV = "8c5d4fd0ec222701598a27b26ab7265d4cee45a3"
+SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
 
-PV = "v2018.07+git${SRCPV}"
+PV = "v2018.01+git${SRCPV}"
 PE = "2"
 
 S = "${WORKDIR}/git"
 
 UBOOT_ENV_SUFFIX = "scr"
 UBOOT_ENV = "boot"
+
+SPL_BINARY = "spl/sunxi-spl.bin"
+UBOOT_BINARY = "u-boot.itb"
 
 do_configure_append() {
     cp ${WORKDIR}/Env.txt ${DEPLOY_DIR_IMAGE}
@@ -54,4 +57,5 @@ do_compile_sun50i[depends] += "atf-sunxi:do_deploy"
 
 do_compile_append() {
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
+    cat ${SPL_BINARY} ${UBOOT_BINARY} > ${DEPLOY_DIR_IMAGE}/u-boot-sunxi-with-spl.bin
 }
