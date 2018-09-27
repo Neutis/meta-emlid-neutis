@@ -34,6 +34,16 @@ checkfs() {
 
 }
 
+resize_data_fs() {
+    if [ $(parted -l 2>/dev/null | grep "^[ \n]4" | awk '{print $4}' | grep -o "^[^.A-Z]*") -lt 3000 ]; then
+        ln -s /proc/self/mounts /etc/mtab
+        parted /dev/mmcblk2 resizepart 4 100%
+        partprobe
+        e2fsck -y -f /dev/mmcblk2p4
+        resize2fs /dev/mmcblk2p4
+    fi
+}
+
 _UDEV_DAEMON=`udev_daemon`
 
 early_setup() {
@@ -47,6 +57,7 @@ early_setup() {
     mkdir -p /var/run
 
     $_UDEV_DAEMON --daemon
+    resize_data_fs
     udevadm trigger --action=add
 }
 
