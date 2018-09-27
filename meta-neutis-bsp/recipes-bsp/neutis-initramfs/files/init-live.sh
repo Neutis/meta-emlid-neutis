@@ -18,29 +18,28 @@ udev_daemon() {
 	return 1
 }
 
-checkfs() {
+check_fs() {
 	DEV="$1"
-	FSCK_LOGFILE=/run/initramfs/fsck.log
-	TYPE=$(blkid -o value -s TYPE $DEV)
-	
-	if ! command -v fsck >/dev/null 2>&1; then
-		echo "fsck not present, so skipping $DEV file system"
-		return
+	COMMAND="$2"
+	if command -v $COMMAND >/dev/null 2>&1; then
+		echo "Checking $DEV partition"
+		$COMMAND -y $DEV
+	else
+		echo "$COMMAND not present, so skipping checking $DEV"
 	fi
-
-	echo "Checking $DEV file system"
-	
-	logsave -a -s $FSCK_LOGFILE fsck -T -t $TYPE $DEV
-
 }
 
-resize_data_fs() {
-    if [ $(parted -l 2>/dev/null | grep "^[ \n]4" | awk '{print $4}' | grep -o "^[^.A-Z]*") -lt 3000 ]; then
-        ln -s /proc/self/mounts /etc/mtab
-        parted /dev/mmcblk2 resizepart 4 100%
+check_all_filesystems() {
+	check_fs "/dev/mmcblk2p2" "e2fsck -f"
+	check_fs "/dev/mmcblk2p1" "fsck.vfat"
+}
+
+resize_rootfs() {
+    if [ $(parted --script -l 2>/dev/null | grep "^[ \n]2" | awk '{print $4}' | grep -o "^[^.A-Z]*") -lt 3000 ]; then
+        parted /dev/mmcblk2 resizepart 2 100%
         partprobe
-        e2fsck -y -f /dev/mmcblk2p4
-        resize2fs /dev/mmcblk2p4
+        e2fsck -y -f /dev/mmcblk2p2
+        resize2fs /dev/mmcblk2p2
     fi
 }
 
@@ -57,7 +56,13 @@ early_setup() {
     mkdir -p /var/run
 
     $_UDEV_DAEMON --daemon
-    resize_data_fs
+
+    ln -s /proc/self/mounts /etc/mtab
+
+    read_args
+    resize_rootfs
+    check_all_filesystems
+
     udevadm trigger --action=add
 }
 
@@ -133,9 +138,6 @@ fatal() {
 early_setup
 [ -z "$CONSOLE" ] && CONSOLE="/dev/console"
 
-
-read_args
-checkfs $ROOT_DEVICE
 
 C=0
 found=""
