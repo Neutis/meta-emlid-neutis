@@ -18,6 +18,22 @@ udev_daemon() {
 	return 1
 }
 
+checkfs() {
+	DEV="$1"
+	FSCK_LOGFILE=/run/initramfs/fsck.log
+	TYPE=$(blkid -o value -s TYPE $DEV)
+	
+	if ! command -v fsck >/dev/null 2>&1; then
+		echo "fsck not present, so skipping $DEV file system"
+		return
+	fi
+
+	echo "Checking $DEV file system"
+	
+	logsave -a -s $FSCK_LOGFILE fsck -T -t $TYPE $DEV
+
+}
+
 _UDEV_DAEMON=`udev_daemon`
 
 early_setup() {
@@ -108,6 +124,7 @@ early_setup
 
 
 read_args
+checkfs $ROOT_DEVICE
 
 C=0
 found=""
