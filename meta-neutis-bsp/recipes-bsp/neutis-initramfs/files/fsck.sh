@@ -76,10 +76,13 @@ checkfs() {
   ln -s /sbin/fsck.ext4 /bin/fsck.ext4
   ln -s /sbin/fsck.ext2 /bin/fsck.ext2
   ln -s /sbin/fsck.fat /bin/fsck.fat
+  local DEV="$1"
 
-  while ! checkfs_once "$@"; do
-	panic "The $2 filesystem on $1 requires a manual fsck"
-  done
+  if [[ -b $DEV ]]; then
+    while ! checkfs_once "$@"; do
+	  panic "The $2 filesystem on $1 requires a manual fsck"
+    done
+  fi
 }
 
 # Parameter: device node to check
