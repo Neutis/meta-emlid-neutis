@@ -1,6 +1,11 @@
 # $1=device
 resize_partition() {
 
+  if [ -z ${1} ] || [ ! -b ${1} ]; then
+    log_warning_msg "block device not present, so skipping resizing partition"
+    return 1
+  fi
+
   ln -s /sbin/resize2fs /bin/resize2fs
 
   local blkdev partnr resizeopts
