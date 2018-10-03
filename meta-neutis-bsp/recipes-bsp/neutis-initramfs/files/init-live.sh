@@ -15,9 +15,8 @@ early_setup() {
   read_args
   ln -s /proc/self/mounts /etc/mtab
 
-  if [[ -b $DATA_DEVICE ]]; then
-    resize_partition $DATA_DEVICE
-  fi
+  resize_partition $DATA_DEVICE
+  resize_partition $ROOT_DEVICE
 
   checkfs $DATA_DEVICE data
   checkfs $ROOT_DEVICE root
