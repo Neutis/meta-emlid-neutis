@@ -1,24 +1,19 @@
 # Check a file system.
 # $1=device
-# $2=mountpoint (for diagnostics only)
 checkfs_once() {
   DEV="$1"
-  NAME="$2"
-  if [ "$NAME" = "/" ]; then
-    NAME="root"
-  fi
 
   TYPE=$(get_fstype "$1")
 
   FSCKCODE=0
  
   if ! command -v fsck >/dev/null 2>&1; then
-    log_warning_msg "fsck not present, so skipping $NAME file system"
+    log_warning_msg "fsck not present, so skipping $DEV"
     return
   fi
 	
   if [ "$fastboot" = "y" ]; then
-    log_warning_msg "Fast boot enabled, so skipping $NAME file system check."
+    log_warning_msg "Fast boot enabled, so skipping $DEV check."
     return
   fi
 
@@ -42,12 +37,12 @@ checkfs_once() {
   fi
 
   if [ "${quiet}" = n ]; then
-    log_begin_msg "Will now check $NAME file system"
+    log_begin_msg "Will now check $DEV file system"
     fsck $force $fix -V -t $TYPE $DEV
     FSCKCODE=$?
     log_end_msg
   else
-    log_begin_msg "Checking $NAME file system"
+    log_begin_msg "Checking $DEV file system"
     fsck $force $fix -T -t $TYPE $DEV
     FSCKCODE=$?
     log_end_msg
@@ -61,7 +56,7 @@ checkfs_once() {
   if [ "$FSCKCODE" -eq 32 ]; then
     log_warning_msg "File system check was interrupted by user"
   elif [ $((FSCKCODE & 4)) -eq 4 ]; then
-    log_failure_msg "File system check of the $NAME filesystem failed"
+    log_failure_msg "File system check of the $DEV filesystem failed"
     return 1
   elif [ "$FSCKCODE" -gt 1 ]; then
     log_warning_msg "File system check failed but did not detect errors"
