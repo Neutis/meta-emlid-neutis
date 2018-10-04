@@ -1,4 +1,6 @@
 read_args() {
+    export FSCK_LIST
+    export RESIZE_LIST
     [ -z "$CMDLINE" ] && CMDLINE=`cat /proc/cmdline`
     for arg in $CMDLINE; do
         optarg=`expr "x$arg" : 'x[^=]*=\(.*\)'`
@@ -21,6 +23,14 @@ read_args() {
 		        fsckfix=y ;;
             rw)
 		        readonly=n ;;
+            fsck.root=yes)
+                FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
+            fsck.data=yes)
+                FSCK_LIST="$FSCK_LIST DATA_DEVICE" ;;
+            resize.root=yes)
+                RESIZE_LIST="$RESIZE_LIST ROOT_DEVICE" ;;
+            resize.data=yes)
+                RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
             console=*)
                 if [ -z "${console_params}" ]; then
                     console_params=$arg
