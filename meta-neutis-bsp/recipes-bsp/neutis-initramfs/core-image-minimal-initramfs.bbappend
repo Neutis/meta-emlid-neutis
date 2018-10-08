@@ -8,6 +8,7 @@ PACKAGE_INSTALL_remove = "initramfs-live-install-efi"
 PACKAGE_INSTALL += "e2fsprogs"
 PACKAGE_INSTALL += "dosfstools"
 PACKAGE_INSTALL += "e2fsprogs-resize2fs"
+PACKAGE_INSTALL += "initramfs-live-boot"
 
 
 
