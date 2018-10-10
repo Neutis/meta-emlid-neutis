@@ -13,14 +13,8 @@ read_args() {
                 modprobe $optarg 2> /dev/null ;;
             LABEL=*)
                 label=$optarg ;;
-            video=*)
-                video_mode=$arg ;;
-            vga=*)
-                vga_mode=$arg ;;
             data=*)
                 DATA_DEVICE=$optarg ;;
-            fsckfix|fsck.repair=yes)
-		        fsckfix=y ;;
             rw)
 		        readonly=n ;;
             fsck.root=yes)
