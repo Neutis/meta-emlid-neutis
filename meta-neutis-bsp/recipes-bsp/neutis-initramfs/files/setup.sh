@@ -6,7 +6,8 @@ read_args() {
         optarg=`expr "x$arg" : 'x[^=]*=\(.*\)'`
         case $arg in
             root=*)
-                ROOT_DEVICE=$optarg ;;
+                ROOT_DEVICE=$optarg
+                FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
             rootimage=*)
                 ROOT_IMAGE=$optarg ;;
             rootfstype=*)
@@ -14,17 +15,19 @@ read_args() {
             LABEL=*)
                 label=$optarg ;;
             data=*)
-                DATA_DEVICE=$optarg ;;
+                DATA_DEVICE=$optarg
+                FSCK_LIST="$FSCK_LIST DATA_DEVICE"
+                RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
             rw)
 		        readonly=n ;;
-            fsck.root=yes)
-                FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
-            fsck.data=yes)
-                FSCK_LIST="$FSCK_LIST DATA_DEVICE" ;;
+            #fsck.root=yes)
+            #    FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
+            #fsck.data=yes)
+            #    FSCK_LIST="$FSCK_LIST DATA_DEVICE" ;;
             resize.root=yes)
                 RESIZE_LIST="$RESIZE_LIST ROOT_DEVICE" ;;
-            resize.data=yes)
-                RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
+            #resize.data=yes)
+            #    RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
             console=*)
                 if [ -z "${console_params}" ]; then
                     console_params=$arg
