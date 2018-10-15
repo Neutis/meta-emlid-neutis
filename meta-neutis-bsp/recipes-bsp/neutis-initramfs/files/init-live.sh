@@ -15,12 +15,12 @@ early_setup() {
   read_args
   ln -s /proc/self/mounts /etc/mtab
 
-  for DEVICE in $RESIZE_LIST; do
-    eval "resize_partition \$$DEVICE"
-  done
-
   for DEVICE in $FSCK_LIST; do
     eval "checkfs \$$DEVICE"
+  done
+
+  for DEVICE in $RESIZE_LIST; do
+    eval "resize_partition \$$DEVICE"
   done
 
   udevadm trigger --action=add
