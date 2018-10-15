@@ -1,47 +1,47 @@
 read_args() {
-    export FSCK_LIST
-    export RESIZE_LIST
-    [ -z "$CMDLINE" ] && CMDLINE=`cat /proc/cmdline`
-    for arg in $CMDLINE; do
-        optarg=`expr "x$arg" : 'x[^=]*=\(.*\)'`
-        case $arg in
-            root=*)
-                ROOT_DEVICE=$optarg
-                FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
-            rootimage=*)
-                ROOT_IMAGE=$optarg ;;
-            rootfstype=*)
-                modprobe $optarg 2> /dev/null ;;
-            LABEL=*)
-                label=$optarg ;;
-            data=*)
-                DATA_DEVICE=$optarg
-                FSCK_LIST="$FSCK_LIST DATA_DEVICE"
-                RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
-            rw)
-		        readonly=n ;;
-            #fsck.root=yes)
-            #    FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
-            #fsck.data=yes)
-            #    FSCK_LIST="$FSCK_LIST DATA_DEVICE" ;;
-            resize.root=yes)
-                RESIZE_LIST="$RESIZE_LIST ROOT_DEVICE" ;;
-            #resize.data=yes)
-            #    RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
-            console=*)
-                if [ -z "${console_params}" ]; then
-                    console_params=$arg
-                else
-                    console_params="$console_params $arg"
-                fi ;;
-            debugshell*)
-                if [ -z "$optarg" ]; then
-                        shelltimeout=30
-                else
-                        shelltimeout=$optarg
-                fi 
-        esac
-    done
+  export FSCK_LIST
+  export RESIZE_LIST
+  [ -z "$CMDLINE" ] && CMDLINE=`cat /proc/cmdline`
+  for arg in $CMDLINE; do
+    optarg=`expr "x$arg" : 'x[^=]*=\(.*\)'`
+    case $arg in
+      root=*)
+        ROOT_DEVICE=$optarg
+        FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
+      rootimage=*)
+        ROOT_IMAGE=$optarg ;;
+      rootfstype=*)
+        modprobe $optarg 2> /dev/null ;;
+      LABEL=*)
+        abel=$optarg ;;
+      data=*)
+        DATA_DEVICE=$optarg
+        FSCK_LIST="$FSCK_LIST DATA_DEVICE"
+        RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
+      rw)
+        readonly=n ;;
+      #fsck.root=yes)
+      #  FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
+      #fsck.data=yes)
+      #  FSCK_LIST="$FSCK_LIST DATA_DEVICE" ;;
+      resize.root=yes)
+        RESIZE_LIST="$RESIZE_LIST ROOT_DEVICE" ;;
+      #resize.data=yes)
+      #  RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
+      console=*)
+        if [ -z "${console_params}" ]; then
+          console_params=$arg
+        else
+          console_params="$console_params $arg"
+        fi ;;
+      debugshell*)
+        if [ -z "$optarg" ]; then
+          shelltimeout=30
+        else
+          shelltimeout=$optarg
+        fi
+    esac
+  done
 }
 
 udev_daemon() {
@@ -73,7 +73,7 @@ boot_root() {
   for dir in `awk '/\/run\/media\/.* /{print $2}' /proc/mounts`; do
       umount ${dir}
   done
-    
+
   # Move system mounts over to
   # the corresponding directories under the real root filesystem.
   mount -n --move /proc /realroot/proc
