@@ -20,14 +20,24 @@ read_args() {
         RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
       rw)
         readonly=n ;;
-      #fsck.root=yes)
-      #  FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
-      #fsck.data=yes)
-      #  FSCK_LIST="$FSCK_LIST DATA_DEVICE" ;;
       resize.root=yes)
         RESIZE_LIST="$RESIZE_LIST ROOT_DEVICE" ;;
-      #resize.data=yes)
-      #  RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
+      #
+      # TODO
+      # Resizing of partition should involve both fsck and resize. Do not
+      # resize it without checking filesystem firstly.
+      #
+      # Before uncommenting resize.(data/root) and fsck.(data/root), make sure
+      # they are removed in parsing data/root argument to avoid duplication.
+      #
+      # https://access.redhat.com/articles/1196353
+      #
+      # fsck.root=yes)
+      #   FSCK_LIST="$FSCK_LIST ROOT_DEVICE" ;;
+      # resize.data=yes)
+      #   RESIZE_LIST="$RESIZE_LIST DATA_DEVICE" ;;
+      # fsck.data=yes)
+      #   FSCK_LIST="$FSCK_LIST DATA_DEVICE" ;;
       console=*)
         if [ -z "${console_params}" ]; then
           console_params=$arg
