@@ -64,7 +64,6 @@ IMAGE_INSTALL_append += "serial-number"
 IMAGE_INSTALL_append += "openssl"
 PREFERRED_VERSION_openssl = "1.0.2k"
 IMAGE_INSTALL_append += "openssl-atecc508a openssl-atecc508a-dev"
-IMAGE_INSTALL_append += "neutis-initramfs"
 
 inherit core-image allwinner-overlays
 
