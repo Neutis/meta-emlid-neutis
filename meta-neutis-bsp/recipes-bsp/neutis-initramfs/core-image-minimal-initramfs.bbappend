@@ -12,8 +12,6 @@ PACKAGE_INSTALL += "dosfstools"
 PACKAGE_INSTALL += "e2fsprogs-resize2fs"
 PACKAGE_INSTALL += "initramfs-live-boot"
 
-
-
 do_make_ramdisk() {
     uboot-mkimage -A arm64 -T ramdisk -C none -n uInitrd -d ${DEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.cpio.gz ${DEPLOY_DIR_IMAGE}/uInitrd
 }
