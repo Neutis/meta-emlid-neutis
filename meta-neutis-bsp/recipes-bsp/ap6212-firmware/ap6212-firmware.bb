@@ -40,11 +40,14 @@ do_install () {
     install -c -m 0644 ${WORKDIR}/brcmfmac43430-sdio.txt ${D}${base_libdir}/firmware/ap6212
     
     install -d ${D}${base_libdir}/firmware/brcm
-    install -d ${D}${sysconfdir}/firmware/ap6212
     ln -sf ${base_libdir}/firmware/ap6212/brcmfmac43430a0-sdio.bin ${D}${base_libdir}/firmware/brcm/brcmfmac43430a0-sdio.bin
     ln -sf ${base_libdir}/firmware/ap6212/brcmfmac43430-sdio.txt ${D}${base_libdir}/firmware/brcm/brcmfmac43430a0-sdio.txt
     ln -sf ${base_libdir}/firmware/ap6212/brcmfmac43430-sdio.bin ${D}${base_libdir}/firmware/brcm/brcmfmac43430-sdio.bin
     ln -sf ${base_libdir}/firmware/ap6212/brcmfmac43430-sdio.txt ${D}${base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt
+    ln -sf ${base_libdir}/firmware/ap6212/bcm43438a1.hcd ${D}${base_libdir}/firmware/brcm/BCM43430A1.hcd
+
+    # TODO
+    install -d ${D}${sysconfdir}/firmware/ap6212
     ln -sf ${base_libdir}/firmware/ap6212/bcm43438a1.hcd ${D}${sysconfdir}/firmware/ap6212/BCM43430A1.hcd
 }
 
@@ -66,5 +69,6 @@ FILES_${PN} += "\
     ${base_libdir}/firmware/brcm/brcmfmac43430a0-sdio.txt \
     ${base_libdir}/firmware/brcm/brcmfmac43430-sdio.bin \
     ${base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt \
+    ${base_libdir}/firmware/brcm/BCM43430A1.hcd \
     ${sysconfdir}/firmware/ap6212/BCM43430A1.hcd \
     "
