@@ -1,0 +1,65 @@
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+index a2e85a6..59850e2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dts
+@@ -81,15 +81,6 @@
+         post-power-on-delay-ms = <200>;
+     };
+ 
+-    bcm43xx {
+-        compatible = "rfkill-gpio";
+-        pinctrl-names = "default";
+-        pinctrl-0 = <&bt_rst_n_pin>;
+-        reset-gpios = <&pio 2 4 GPIO_ACTIVE_HIGH>;     /* PC4 */
+-        name = "bcm43xx";
+-        type = "bluetooth";
+-    };
+-
+     reg_cpu_fallback_1_1V: reg_cpu_fallback_1_1V {
+         compatible = "regulator-fixed";
+         regulator-name = "vdd-cpux-dummy";
+@@ -353,3 +344,12 @@
+         };
+     };
+ };
++
++&uart1 {
++    bluetooth {
++        compatible = "brcm,bcm43438-bt";
++        max-speed = <1500000>;
++        shutdown-gpios = <&pio 2 4 GPIO_ACTIVE_HIGH>; /* PC4 */
++        device-wakeup-gpios = <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 */
++    };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dtsi
+index 6f65d65..57d52b2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5.dtsi
+@@ -78,15 +78,6 @@
+ 		post-power-on-delay-ms = <200>;
+ 	};
+ 
+-	bcm43xx {
+-		compatible = "rfkill-gpio";
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&bt_rst_n_pin>;
+-		reset-gpios = <&pio 2 4 GPIO_ACTIVE_HIGH>; /* PC4 */
+-		name = "bcm43xx";
+-		type = "bluetooth";
+-	};
+-
+ 	cam_xclk: cam-xclk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+@@ -328,3 +319,11 @@
+ 	};
+ };
+ 
++&uart1 {
++    bluetooth {
++        compatible = "brcm,bcm43438-bt";
++        max-speed = <1500000>;
++        shutdown-gpios = <&pio 2 4 GPIO_ACTIVE_HIGH>; /* PC4 */
++        device-wakeup-gpios = <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 */
++    };
++};
