@@ -15,4 +15,5 @@ PACKAGE_INSTALL += "initramfs-live-boot"
 do_make_ramdisk() {
     uboot-mkimage -A arm64 -T ramdisk -C none -n uInitrd -d ${DEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.cpio.gz ${DEPLOY_DIR_IMAGE}/uInitrd
 }
+
 addtask make_ramdisk after do_image_cpio before do_image_complete
