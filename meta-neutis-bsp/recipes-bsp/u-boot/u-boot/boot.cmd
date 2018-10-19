@@ -37,7 +37,7 @@ if test -e mmc ${device} ${prefix}Env.txt; then
     env import -t ${load_addr} ${filesize}
 fi
 
-setenv bootargs "console=${console} earlyprintk root=${rootdev} rw rootwait fsck.repair=yes panic=10 loglevel=${loglevel}"
+setenv bootargs "console=${console} earlyprintk root=${rootdev} rw rootwait resize.root=yes panic=10 loglevel=${loglevel}"
 
 # Load DT file
 load mmc ${device} ${fdt_addr_r} ${prefix}${fdtfile}
