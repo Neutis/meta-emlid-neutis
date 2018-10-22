@@ -13,6 +13,10 @@ log_success_msg() {
   _log_msg "Success: $@\n"
 }
 
+log_warning_msg(){
+  _log_msg "Warning: $@\n"
+}
+
 log_failure_msg(){
   _log_msg "Failure: $@\n"
 }
