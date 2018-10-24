@@ -8,12 +8,17 @@ resize_partition() {
     return 1
   fi
 
-  local blkdev partnr resizeopts currpartsize
+  local blkdev partnr currpartsize resizeopts resize2fsopts
 
   blkdev=${1%p*}
   partnr=${1#${blkdev}p}
 
-  currpartsize=$(parted -s ${blkdev} unit % print 2>/dev/null | grep '^[ \n]'${partnr} | awk '{print $3}' | grep -o '^[^.A-Z%]*')
+  if [ -b "${blkdev}" -a ! -z "${partnr}" ]; then
+    currpartsize=$(parted -s ${blkdev} unit % print 2>/dev/null | grep '^[ \n]'${partnr} | awk '{print $3}' | grep -o '^[^.A-Z%]*')
+  else
+    log_warning_msg "block device is not present or partition number is empty"
+    return 1
+  fi
 
   if [ ! ${currpartsize} ]; then
     log_warning_msg "unable to get size of ${1}"
@@ -21,27 +26,15 @@ resize_partition() {
   fi
 
   if [ ${currpartsize} -ge 100 ]; then
-    return 0
+    resize2fsopts="> /dev/null 2>&1"
   elif [ ${currpartsize} -lt 100 ];then
-    true
+    resizeopts="resizepart ${partnr} 100"
+    parted -s ${blkdev} unit % ${resizeopts} print
   else
     log_warning_msg "unable to get valid size of ${1}"
     return 1
   fi
 
-  resizeopts="resizepart ${partnr} 100"
-
-  [ "$quiet" != "y" ] && log_begin_msg "Resizing $TYPE file system on ${ROOT}"
-
-  if [ -b "${blkdev}" -a ! -z "${partnr}" ]; then
-    parted -s ${blkdev} unit % ${resizeopts} print
-  else
-    log_warning_msg "block device is not present or partition number is empty"
-  fi
-
-  resize2fs -f ${1}
-  resize_status="$?"
-
-  [ "$quiet" != "y" ] && log_end_msg
+  eval resize2fs -f ${1} ${resize2fsopts}
 }
 
