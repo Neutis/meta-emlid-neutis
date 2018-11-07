@@ -50,7 +50,7 @@ do_configure_append() {
 
 EXTRA_OEMAKE_append_sun50i = " BL31=${DEPLOY_DIR_IMAGE}/bl31.bin "
 
-do_compile_sun50i[depends] += "atf-sunxi:do_deploy"
+do_compile_sun50i[depends] += "atf-sunxi:do_install"
 
 do_compile_append() {
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
