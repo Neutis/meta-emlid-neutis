@@ -14,6 +14,10 @@ require recipes-kernel/linux/linux.inc
 # Pull in the devicetree files into the rootfs
 RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
 
+# Explicitly depend on bison-native for deterministic builds, as it is required
+# for the build
+do_kernel_configme[depends] += "bison-native:do_populate_sysroot"
+
 # Default is to use stable kernel version
 # If you want to use latest git version set to "1"
 DEFAULT_PREFERENCE = "-1"
